@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import './Login.css';
 import logo from '../../images/logo.svg';
+import Form from '../Form/Form';
 
 const Login = () => {
+  const buttonText = 'Войти';
+
   return (
     <section className='login'>
       <div className='login__wrapper'>
@@ -12,11 +15,7 @@ const Login = () => {
         <h1 className='login__title'>Рады видеть!</h1>
       </div>
 
-      <form
-        className='form'
-        action=''
-        method=''
-      >
+      <Form buttonText={buttonText}>
         <label htmlFor='email' className='form__label'>E-mail
           <input
             className='form__input'
@@ -38,8 +37,7 @@ const Login = () => {
           />
           <span className='form__error' id='password-error' />
         </label>
-        <button type='submit' className='form__submit-btn'>Войти</button>
-      </form>
+      </Form>
 
       <p className='login__question'>Ещё не зарегистрированы?&nbsp;
         <Link to='/signup' className='login__signup-link'>Регистрация</Link>
