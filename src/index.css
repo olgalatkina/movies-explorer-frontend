@@ -3,9 +3,10 @@
 
 :root {
   --primary: #2BE080;
-  --bg-hero: #073042;
+  --bg-promo: #073042;
   --secondary: #3456F3;
   --accent: #FF3055;
+  --preloader: #FF6838;
   --white: #fff;
   --grey-btn: #F9F9F9;
   --grey-bg: #F5F5F5;
@@ -17,12 +18,19 @@
 }
 
 .body {
-  font-family: 'Inter', 'Roboto', 'Helvetica Neue', ‘Arial’, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   color: var(--black);
-  background-color: var(--white);
   text-rendering: optimizeLegibility;
+  background-color: var(--white);
+  margin: 0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 90%;
 }

@@ -1,7 +1,3 @@
 .app {
-  font-family: Inter,Arial,sans-serif;
-  text-rendering: optimizeLegibility;
-  color: var(--black);
-  background-color: var(--white);
-  margin: 0;
+
 }
