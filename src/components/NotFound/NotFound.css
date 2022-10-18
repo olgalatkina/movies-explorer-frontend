@@ -30,6 +30,7 @@
   line-height: 15px;
   text-decoration: none;
   color: var(--secondary);
+  transition: opacity .3s linear;
 }
 
 .not-found__link:hover {

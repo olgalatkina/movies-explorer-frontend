@@ -13,8 +13,13 @@
   --grey-light: #F2F2F2;
   --grey-dark: #E8E8E8;
   --grey-auth: #AAAAAA;
+  --grey-light-text: #C2C2C2;
   --grey-text: #A0A0A0;
   --black: #000;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .body {
