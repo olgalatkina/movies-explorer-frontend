@@ -1,11 +1,12 @@
 import './Form.css';
 
 const Form = (props) => {
-  const {children, buttonText} = props;
+  const {children, buttonText, formName} = props;
 
   return (
     <form
       className='form'
+      name={`form-${formName}`}
       action=''
       method=''
     >

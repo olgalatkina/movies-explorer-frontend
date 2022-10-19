@@ -67,4 +67,5 @@
 .form__submit-btn_disabled {
   color: var(--grey-light-text);
   background: var(--grey-dark);
+  cursor: auto;
 }

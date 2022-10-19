@@ -5,6 +5,7 @@ import Form from '../Form/Form';
 
 const Login = () => {
   const buttonText = 'Войти';
+  const formName = 'login';
 
   return (
     <section className='login'>
@@ -15,7 +16,7 @@ const Login = () => {
         <h1 className='login__title'>Рады видеть!</h1>
       </div>
 
-      <Form buttonText={buttonText}>
+      <Form buttonText={buttonText} formName={formName}>
         <label htmlFor='email' className='form__label'>E-mail
           <input
             className='form__input'
