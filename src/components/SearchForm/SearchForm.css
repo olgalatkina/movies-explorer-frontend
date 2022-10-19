@@ -1,3 +1,4 @@
 .search {
-  background-color: var(--grey-bg);
+  min-height: 200px;
+  background-color: var(--grey-dark);
 }

@@ -1,4 +1,26 @@
 .header {
   min-height: 74px;
-  background-color: var(--grey-light);
+  padding: 18px 0;
+  background: var(--white);
+  box-sizing: border-box;
+}
+
+.header__content {
+  max-width: 1280px;
+  width: calc(100% - 28px);
+  margin: 0 auto;
+    min-height: 38px;
+    background: var(--grey-light);
+}
+
+@media screen and (min-width: 768px) {
+  .header__content {
+    width: calc(100% - 60px);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .header__content {
+    width: calc(100% - 140px);
+  }
 }
