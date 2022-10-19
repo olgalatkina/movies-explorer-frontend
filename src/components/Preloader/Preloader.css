@@ -61,7 +61,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background: var(--preloader);
+  background: var(--primary);
   border-radius: 50px;
 }
 

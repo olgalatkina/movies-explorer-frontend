@@ -22,7 +22,7 @@ const SignWithForm = (props) => {
         onSubmit={onSubmit}
       >
         {children}
-        <button type='submit' className='form__submit-btn'>{buttonText}</button>
+        <button type='submit' className='form__submit-btn login__btn'>{buttonText}</button>
       </form>
 
       <p className='login__question'>{question}&nbsp;
