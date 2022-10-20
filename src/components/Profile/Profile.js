@@ -25,7 +25,7 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           type='text'
           name='name'
           id='name'
-          placeholder={userName}
+          value={userName}
         />
       </div>
       <div className='profile__line'>
@@ -35,7 +35,7 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           type='email'
           name='email'
           id='email'
-          placeholder={email}
+          value={email}
         />
       </div>
       <p className='profile__error' />
