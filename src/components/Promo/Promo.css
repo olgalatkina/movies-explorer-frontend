@@ -1,17 +1,18 @@
 .promo {
   min-height: 570px;
+  padding-top: 207px;
   background-color: var(--bg-promo);
   background-image: url(../../images/bg-image.svg);
   background-repeat: no-repeat;
   background-position: center 142px;
   background-size: 248px;
+  box-sizing: border-box;
 }
 
 .promo__content {
   max-width: 1280px;
   width: calc(100% - 20px);
   margin: 0 auto;
-  padding-top: 207px;
 }
 
 .promo__title {
@@ -28,13 +29,13 @@
 @media screen and (min-width: 768px) {
   .promo {
     min-height: 784px;
+    padding-top: 326px;
     background-position: center 224px;
     background-size: 320px;
   }
 
   .promo__content {
     width: calc(100% - 38px);
-    padding-top: 326px;
   }
 
   .promo__title {
@@ -46,11 +47,11 @@
 @media screen and (min-width: 1280px) {
   .promo {
     min-height: 524px;
+    padding-top: 184px;
     background-position: center 82px;
   }
 
   .promo__content {
     width: calc(100% - 140px);
-    padding-top: 184px;
   }
 }
