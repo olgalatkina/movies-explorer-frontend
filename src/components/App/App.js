@@ -8,6 +8,8 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 const App = () => {
   return (
@@ -23,19 +25,42 @@ const App = () => {
         />
         <Route
           exact path='/'
-          element={<Main />}
+          element={
+            <>
+              <Header />
+              <Main />
+              <Footer />
+            </>
+          }
         />
         <Route
           exact path='/movies'
-          element={<Movies />}
+          element={
+            <>
+              <Header />
+              <Movies />
+              <Footer />
+            </>
+          }
         />
         <Route
           exact path='/saved-movies'
-          element={<SavedMovies />}
+          element={
+            <>
+              <Header />
+              <SavedMovies />
+              <Footer />
+            </>
+          }
         />
         <Route
           exact path='/profile'
-          element={<Profile />}
+          element={
+            <>
+              <Header />
+              <Profile />
+            </>
+          }
         />
         <Route
           path='*'

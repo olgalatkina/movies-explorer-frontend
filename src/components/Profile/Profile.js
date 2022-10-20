@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Profile.css';
-import Header from '../Header/Header';
 
 const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
   const handleSubmit = (evt) => {
@@ -53,35 +52,32 @@ const Profile = () => {
   const handleEditBtnClick = () => setIsEdit(true);
 
   return (
-    <>
-      <Header />
-      <section className='profile'>
-        <h1 className='profile__title'>{`Привет, ${userName}!`}</h1>
-        {isEdit
-          ?
-          <ProfileForm
-            buttonText='Сохранить'
-            formName='profile'
-            setIsEdit={setIsEdit}
-            userName={userName}
-            email={email}
-          />
-          :
-          <div className='profile__wrapper'>
-            <div className='profile__line'>
-              <p className='profile__text'>Имя</p>
-              <p className='profile__text profile__text_weight_smaller'>{userName}</p>
-            </div>
-            <div className='profile__line'>
-              <p className='profile__text'>E-mail</p>
-              <p className='profile__text profile__text_weight_smaller'>{email}</p>
-            </div>
-            <button type='button' className='profile__edit-button' onClick={handleEditBtnClick}>Редактировать</button>
-            <Link to={`/`} className='profile__link'>Выйти из аккаунта</Link>
+    <section className='profile'>
+      <h1 className='profile__title'>{`Привет, ${userName}!`}</h1>
+      {isEdit
+        ?
+        <ProfileForm
+          buttonText='Сохранить'
+          formName='profile'
+          setIsEdit={setIsEdit}
+          userName={userName}
+          email={email}
+        />
+        :
+        <div className='profile__wrapper'>
+          <div className='profile__line'>
+            <p className='profile__text'>Имя</p>
+            <p className='profile__text profile__text_weight_smaller'>{userName}</p>
           </div>
-        }
-      </section>
-    </>
+          <div className='profile__line'>
+            <p className='profile__text'>E-mail</p>
+            <p className='profile__text profile__text_weight_smaller'>{email}</p>
+          </div>
+          <button type='button' className='profile__edit-button' onClick={handleEditBtnClick}>Редактировать</button>
+          <Link to={`/`} className='profile__link'>Выйти из аккаунта</Link>
+        </div>
+      }
+    </section>
   )
 };
 
