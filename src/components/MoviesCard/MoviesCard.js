@@ -1,20 +1,28 @@
 import { useLocation } from 'react-router-dom';
+import cn from 'classnames';
 import './MoviesCard.css';
 import { formatDuration } from '../../utils/utils';
+import {useState} from "react";
 
 const MoviesCard = ({movie}) => {
-  const location = useLocation().pathname; // '/movies'
+  const { pathname } = useLocation();
+  const [isSaved, setIsSaved] = useState(false);
   const { nameRU, trailerLink, image, duration } = movie;
-  const base = 'https://api.nomoreparties.co';
-  const handleCardBtnClick = () => {};
 
-  // const cardBtnClass = cn('card__button', {
-  //
-  // });
+  const handleSaveMovie = () => setIsSaved(true);
+  const handleDeleteMovie = () => setIsSaved(false);
+
+  // временное решение для вёрстки
+  const base = 'https://api.nomoreparties.co';
+
+  const cardBtnClassNames = cn('card__button', {
+    'card__button_saved': pathname === '/movies' && isSaved,
+    'card__button_delete': pathname === '/saved-movies',
+  });
 
   return (
     <li className='card'>
-      <a className='card__link' href={trailerLink} target='_blank'>
+      <a className='card__link' href={trailerLink} target='_blank' rel='noreferrer'>
         <img
           className='card__cover'
           src={`${base}${image?.formats?.thumbnail?.url}`}
@@ -25,10 +33,10 @@ const MoviesCard = ({movie}) => {
         <div className="card__wrapper">
           <p className='card__title'>{nameRU}</p>
           <button
-            className='card__button'
+            className={cardBtnClassNames}
             type='button'
             aria-label={'save movie'}
-            onClick={handleCardBtnClick}
+            onClick={isSaved ? handleDeleteMovie : handleSaveMovie}
           />
         </div>
         <p className='card__duration'>{formatDuration(duration)}</p>

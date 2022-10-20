@@ -11,7 +11,7 @@ const Movies = () => {
   return (
     <div className='movies'>
       <Header />
-      <main className='movies__main'>
+      <main>
         <SearchForm />
         <MoviesCardList movies={movies} />
       </main>
