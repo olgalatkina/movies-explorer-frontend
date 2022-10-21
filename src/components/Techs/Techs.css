@@ -1,3 +1,35 @@
 .techs {
-  background-color: var(--black);
+  padding: 70px 0;
+  background-color: var(--white);
+  box-sizing: border-box;
+}
+
+.techs__content {
+  max-width: 1280px;
+  width: calc(100% - 36px);
+  margin: 0 auto;
+}
+
+.techs-title {
+
+}
+
+@media screen and (min-width: 768px) {
+  .techs {
+    padding: 90px 0;
+  }
+
+  .techs__content {
+    width: calc(100% - 100px);
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .techs {
+    padding: 100px 0;
+  }
+
+  .techs__content {
+    width: calc(100% - 140px);
+  }
 }
