@@ -4,7 +4,7 @@ import Portfolio from "../Portfolio/Portfolio";
 
 const AboutMe = () => {
   return (
-    <section className='about-me'>
+    <section className='about-me' id='about-me'>
       <div className='about-me__content'>
         <h2 className='section-title'>Студент</h2>
         <div className='about-me__wrapper'>
