@@ -48,6 +48,12 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
+  text-decoration: none;
+  transition: opacity .3s linear;
+}
+
+.about-me__social:hover {
+  opacity: 0.7;
 }
 
 .about-me__photo {
@@ -56,7 +62,7 @@
   width: 292px;
   height: 352px;
   margin: 0 auto 40px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
   border-radius: 10px;
 }

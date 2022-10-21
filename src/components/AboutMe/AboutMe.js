@@ -1,5 +1,5 @@
 import './AboutMe.css';
-import photo from '../../images/photo.jpg';
+import photo from '../../images/sketch.jpg';
 import Portfolio from "../Portfolio/Portfolio";
 
 const AboutMe = () => {
@@ -9,14 +9,14 @@ const AboutMe = () => {
         <h2 className='section-title'>Студент</h2>
         <div className='about-me__wrapper'>
           <div className='about-me__info'>
-            <h3 className='about-me__name'>Виталий</h3>
-            <p className='about-me__position'>Фронтенд-разработчик, 30 лет</p>
+            <h3 className='about-me__name'>Ольга</h3>
+            <p className='about-me__position'>Фронтенд-разработчик</p>
             <p className="about-me__text">
-              Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
+              Я&nbsp;родилась и&nbsp;в&nbsp;данный момент живу в&nbsp;Новосибирске, закончила худграф НГПУ. Люблю слушать музыку, а&nbsp;ещё увлекаюсь европейской каллиграфией. Работаю дизайнером, с&nbsp;2018 года в&nbsp;сваязи с&nbsp;переездом в&nbsp;Нижний Новгород freelance. Сначала вебразработка была необходимым повышением квалификации как дизайнера, но&nbsp;кодить оказалось интереснее ❤. HTML&nbsp;Academy, Hexlet, RSSchool и&nbsp;теперь Я.Практикум. Кажется, мне реально нравится учиться:) Приятно, что всё это помогает в&nbsp;работе.
             </p>
-            <p className='about-me__social'>Github</p>
+            <a href='https://github.com/olgalatkina' className='about-me__social' target='_blank'>Github</a>
           </div>
-          <img src={photo} alt='Виталий' className='about-me__photo' />
+          <img src={photo} alt='Ольга' className='about-me__photo' />
         </div>
         <Portfolio />
       </div>
