@@ -14,7 +14,6 @@ const Main = () => {
       <AboutProject />
       <Techs />
       <AboutMe />
-      <Portfolio />
     </main>
   )
 };
