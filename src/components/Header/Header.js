@@ -8,7 +8,7 @@ import Burger from '../Burger/Burger';
 
 const Header = () => {
   const { pathname } = useLocation();
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const headerClassNames = cn('header', {
