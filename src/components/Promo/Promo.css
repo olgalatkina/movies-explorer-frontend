@@ -1,7 +1,7 @@
 .promo {
   min-height: 570px;
   padding-top: 207px;
-  background-color: var(--bg-promo);
+  background-color: var(--primary-dark);
   background-image: url(../../images/bg-image.svg);
   background-repeat: no-repeat;
   background-position: center 142px;
