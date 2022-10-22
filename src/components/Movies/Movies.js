@@ -6,9 +6,11 @@ import movies from '../../utils/mock';
 console.log(movies[0]);
 
 const Movies = () => {
+  const handleSubmitSearch = () => {};
+
   return (
     <main>
-      <SearchForm />
+      <SearchForm handleSubmitSearch={handleSubmitSearch} />
       <MoviesCardList movies={movies} />
     </main>
   )

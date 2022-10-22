@@ -1,9 +1,18 @@
 import './FilterCheckbox.css';
 
-const FilterCheckbox = () => {
+const FilterCheckbox = ({ isShort, setIsShot }) => {
   return (
-    <div className=='filter-checkbox'>
-
+    <div className='checkbox'>
+      <label className='checkbox__content'>
+        <input
+          className='checkbox__input'
+          onClick={() => setIsShot(!isShort)}
+          type='checkbox'
+          checked={isShort}
+        />
+        <span className='checkbox__slider' />
+        <span className='checkbox__name'>Короткометражки</span>
+      </label>
     </div>
   )
 };
