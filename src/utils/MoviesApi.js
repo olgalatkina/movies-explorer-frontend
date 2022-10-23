@@ -1,4 +1,4 @@
-const MOVIES_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+import { MOVIES_BASE_URL } from './constants';
 
 class MoviesApi {
   constructor ({ baseUrl, headers }) {
