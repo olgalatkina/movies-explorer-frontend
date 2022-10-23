@@ -6,9 +6,8 @@ import logo from '../../images/logo.svg';
 import Navigation from '../Navigation/Navigation';
 import Burger from '../Burger/Burger';
 
-const Header = () => {
+const Header = ({loggedIn}) => {
   const { pathname } = useLocation();
-  const [loggedIn, setLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const headerClassNames = cn('header', {

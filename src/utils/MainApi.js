@@ -1,4 +1,4 @@
-const MAIN_BASE_URL = 'https://movies.olgalatkina.nomoredomains.sbs';
+const MAIN_BASE_URL = 'https://api.movies.olgalatkina.nomoredomains.sbs';
 
 class MainApi {
   constructor({ baseUrl, headers }) {

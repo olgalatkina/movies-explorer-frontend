@@ -12,6 +12,8 @@ import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 
 const App = () => {
+  const [loggedIn, setLoggedIn] = useState(true);
+
   return (
     <div className='app'>
       <Routes>
@@ -27,7 +29,7 @@ const App = () => {
           exact path='/'
           element={
             <>
-              <Header />
+              <Header loggedIn={loggedIn} />
               <Main />
               <Footer />
             </>
@@ -37,7 +39,7 @@ const App = () => {
           exact path='/movies'
           element={
             <>
-              <Header />
+              <Header loggedIn={loggedIn} />
               <Movies />
               <Footer />
             </>
@@ -47,7 +49,7 @@ const App = () => {
           exact path='/saved-movies'
           element={
             <>
-              <Header />
+              <Header loggedIn={loggedIn} />
               <SavedMovies />
               <Footer />
             </>
@@ -57,7 +59,7 @@ const App = () => {
           exact path='/profile'
           element={
             <>
-              <Header />
+              <Header loggedIn={loggedIn} />
               <Profile />
             </>
           }
