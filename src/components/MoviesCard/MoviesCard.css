@@ -1,0 +1,73 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: fit-content;
+  background-color: var(--grey-light-bg);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+}
+
+.card__cover {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  aspect-ratio: 16/9;
+  background: var(--grey-dark);
+  border-radius: 6px 6px 0 0;
+}
+
+.card__info {
+  padding: 7px 10px 14px 14px;
+}
+
+.card__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.card__title {
+  margin: 0;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--black);
+}
+
+.card__button {
+  display: block;
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  background-image: url(../../images/ico-heart.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  transition: opacity .3s linear;
+  cursor: pointer;
+}
+
+.card__button_saved {
+  background-image: url('../../images/ico-heart-active.svg');
+}
+
+.card__button_delete {
+  background-image: url('../../images/ico-cross.svg');
+}
+
+.card__button:hover {
+  opacity: 0.8;
+}
+
+.card__duration {
+  margin: 0;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--grey-text);
+}

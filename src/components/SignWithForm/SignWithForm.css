@@ -1,0 +1,162 @@
+.login {
+  height: 100vh;
+  padding: 56px 30px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--black);
+  box-sizing: border-box;
+}
+
+.login__wrapper {
+  width: 100%;
+  max-width: 396px;
+  text-align: center;
+}
+
+.login__logo-link {
+  display: inline-block;
+  margin-bottom: 50px;
+}
+
+.logo {
+  display: block;
+  width: 38px;
+  height: 38px;
+}
+
+.login__title {
+  margin: 0 0 80px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
+.form {
+  width: 100%;
+  max-width: 396px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form__label {
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--grey-text);
+}
+
+.form__label:not(:first-of-type) {
+  margin-top: 6px;
+}
+
+.form__input {
+  width: 100%;
+  padding: 5px 0 10px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--black);
+  border: none;
+  border-bottom: 1px solid var(--grey-dark);
+}
+
+.form__error {
+  margin: 6px 0 0;
+  min-height: 12px;
+  display: block;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--accent);
+  opacity: 0;
+}
+
+.form__error_visible {
+  opacity: 1;
+}
+
+.form__submit-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: var(--white);
+  background: var(--secondary);
+  border: none;
+  border-radius: 3px;
+  transition: opacity .3s linear;
+  cursor: pointer;
+}
+
+.login__btn {
+  margin-top: auto;
+}
+
+.form__submit-btn:hover {
+  opacity: 0.8;
+}
+
+.form__submit-btn_disabled {
+  color: var(--grey-light-text);
+  background: var(--grey-dark);
+  cursor: auto;
+}
+
+.login__question {
+  max-width: 396px;
+  margin: 14px 0 0;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--grey-text);
+}
+
+.login__link {
+  text-decoration: none;
+  color: var(--secondary);
+  transition: opacity .3s linear;
+}
+
+.login__link:hover {
+  opacity: 0.7;
+}
+
+@media screen and (min-width: 768px) {
+  .login {
+    padding: 232px 186px;
+  }
+
+  .login__wrapper {
+    text-align: start;
+  }
+
+  .login__logo-link {
+    margin-bottom: 40px;
+  }
+
+  .login__title {
+    margin: 0 0 40px;
+  }
+
+  .login__question {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .form__submit-btn {
+    padding: 13px 15px 15px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .login {
+    padding: 70px 186px;
+  }
+}

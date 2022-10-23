@@ -1,0 +1,41 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/font-face.css);
+
+:root {
+  --primary: #2BE080;
+  --primary-dark: #073042;
+  --secondary: #3456F3;
+  --accent: #FF3055;
+  --white: #fff;
+  --grey-btn: #F9F9F9;
+  --grey-light-bg: #FDFDFD;
+  --grey-bg: #F5F5F5;
+  --grey-light: #F2F2F2;
+  --grey-dark: #E8E8E8;
+  --grey-auth: #AAAAAA;
+  --grey-light-text: #C2C2C2;
+  --grey-text: #A0A0A0;
+  --black: #000;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.body {
+  font-family: 'Inter', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--black);
+  text-rendering: optimizeLegibility;
+  background-color: var(--white);
+  margin: 0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1140px;
+  width: 90%;
+}
