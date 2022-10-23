@@ -49,6 +49,7 @@
   font-size: 14px;
   line-height: 17px;
   text-decoration: none;
+  color: var(--black);
   transition: opacity .3s linear;
 }
 
