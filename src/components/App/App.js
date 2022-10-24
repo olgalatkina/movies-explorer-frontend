@@ -82,7 +82,6 @@ const App = () => {
     MainApi
       .changeUserInfo(data)
       .then((newData) => {
-        console.log('handleUpdateUser: ', newData);
         setCurrentUser(newData);
       })
       .catch((err) => console.log(err))
@@ -170,7 +169,7 @@ const App = () => {
             element={
               <ProtectedRoute loggedIn={loggedIn} >
                 <Header loggedIn={loggedIn} />
-                <Movies allMovies={allMovies} />
+                <Movies allMovies={allMovies} isLoading={isLoading}/>
                 <Footer />
               </ProtectedRoute>
             }
@@ -180,7 +179,7 @@ const App = () => {
             element={
               <ProtectedRoute loggedIn={loggedIn} >
                 <Header loggedIn={loggedIn} />
-                <SavedMovies savedMovies={savedMovies} />
+                <SavedMovies savedMovies={savedMovies} isLoading={isLoading}/>
                 <Footer />
               </ProtectedRoute>
             }

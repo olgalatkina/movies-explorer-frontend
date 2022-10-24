@@ -1,26 +1,42 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
+import cn from 'classnames';
 import './Profile.css';
 
-const ProfileForm = ({ buttonText, formName, userName, userEmail, handleUpdateUser }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+const ProfileForm = ({ formName, handleUpdateUser }) => {
+  const {name, email} = useContext(CurrentUserContext);
+  const [userName, setUserName] = useState(name);
+  const [userEmail, setUserEmail] = useState(email);
+  const [disabledButton, setDisabledButton] = useState(true);
 
   const handleName = (evt) => {
-    setName(evt.target.value);
+    setUserName(evt.target.value);
   };
 
   const handleEmail = (evt) => {
-    setEmail(evt.target.value);
+    setUserEmail(evt.target.value);
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     handleUpdateUser({
-      name,
-      email,
+      name: userName,
+      email: userEmail,
     });
   };
+
+  useEffect(() => {
+    if (userName !== name || userEmail !== email) {
+      setDisabledButton(false);
+    }
+    else {
+      setDisabledButton(true);
+    }
+  }, [handleName, handleEmail, userName, userEmail, name, email]);
+
+  const submitButtonClassNames = cn('form__submit-btn', {
+    'form__submit-btn_disabled': disabledButton,
+  })
 
   return (
     <form
@@ -37,8 +53,10 @@ const ProfileForm = ({ buttonText, formName, userName, userEmail, handleUpdateUs
           type='text'
           name='name'
           id='name'
-          value={userName}
-          onChange={() => {}}
+          minLength='2'
+          maxLength='30'
+          defaultValue={name}
+          onChange={handleName}
         />
       </div>
       <div className='profile__line'>
@@ -48,18 +66,18 @@ const ProfileForm = ({ buttonText, formName, userName, userEmail, handleUpdateUs
           type='email'
           name='email'
           id='email'
-          value={userEmail}
-          onChange={() => {}}
+          defaultValue={email}
+          onChange={handleEmail}
         />
       </div>
       <p className='profile__error' />
-      <button type='submit' className='form__submit-btn'>{buttonText}</button>
+      <button type='submit' className={submitButtonClassNames} disabled={disabledButton}>Сохранить</button>
     </form>
   )
 }
 
 const Profile = ({signOut, handleUpdateUser}) => {
-  const {name, email} = useContext(CurrentUserContext);
+  const { name, email } = useContext(CurrentUserContext);
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEditBtnClick = () => setIsEdit(true);
@@ -70,10 +88,7 @@ const Profile = ({signOut, handleUpdateUser}) => {
       {isEdit
         ?
         <ProfileForm
-          buttonText='Сохранить'
           formName='profile'
-          userName={name}
-          userEmail={email}
           handleUpdateUser={handleUpdateUser}
         />
         :

@@ -107,6 +107,10 @@
   cursor: auto;
 }
 
+.form__submit-btn_disabled:hover {
+  opacity: 1;
+}
+
 .login__question {
   max-width: 396px;
   margin: 14px 0 0;
