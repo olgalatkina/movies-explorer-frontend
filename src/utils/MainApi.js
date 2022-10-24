@@ -33,15 +33,15 @@ class MainApi {
     }).then(this._checkResponse);
   };
 
-  // checkToken(jwt) {
-  //   return fetch(`${this._baseUrl}/users/me`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${jwt}`,
-  //     },
-  //   }).then(this._checkResponse);
-  // };
+  checkToken(jwt) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${jwt}`,
+      },
+    }).then(this._checkResponse);
+  };
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {

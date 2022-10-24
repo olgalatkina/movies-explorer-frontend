@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 import './Profile.css';
 
-const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
+const ProfileForm = ({ buttonText, formName, userName, userEmail, handleUpdateUser }) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleName = (evt) => {
+    setName(evt.target.value);
+  };
+
+  const handleEmail = (evt) => {
+    setEmail(evt.target.value);
+  };
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // временное решение для проверки вёрстки
-    setIsEdit(false);
+    handleUpdateUser({
+      name,
+      email,
+    });
   };
 
   return (
@@ -25,7 +38,7 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           name='name'
           id='name'
           value={userName}
-          onChange={()=> {}}
+          onChange={() => {}}
         />
       </div>
       <div className='profile__line'>
@@ -35,8 +48,8 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           type='email'
           name='email'
           id='email'
-          value={email}
-          onChange={()=> {}}
+          value={userEmail}
+          onChange={() => {}}
         />
       </div>
       <p className='profile__error' />
@@ -45,38 +58,36 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
   )
 }
 
-const Profile = () => {
+const Profile = ({signOut, handleUpdateUser}) => {
+  const {name, email} = useContext(CurrentUserContext);
   const [isEdit, setIsEdit] = useState(false);
-  // позже возьмём из me
-  const userName = 'trolya';
-  const email = 'pink.elephant@yandex.ru';
 
   const handleEditBtnClick = () => setIsEdit(true);
 
   return (
     <section className='profile'>
-      <h1 className='profile__title'>{`Привет, ${userName}!`}</h1>
+      <h1 className='profile__title'>{`Привет, ${name}!`}</h1>
       {isEdit
         ?
         <ProfileForm
           buttonText='Сохранить'
           formName='profile'
-          setIsEdit={setIsEdit}
-          userName={userName}
-          email={email}
+          userName={name}
+          userEmail={email}
+          handleUpdateUser={handleUpdateUser}
         />
         :
         <div className='profile__wrapper'>
           <div className='profile__line'>
             <p className='profile__text'>Имя</p>
-            <p className='profile__text profile__text_weight_smaller'>{userName}</p>
+            <p className='profile__text profile__text_weight_smaller'>{name}</p>
           </div>
           <div className='profile__line'>
             <p className='profile__text'>E-mail</p>
             <p className='profile__text profile__text_weight_smaller'>{email}</p>
           </div>
           <button type='button' className='profile__edit-button' onClick={handleEditBtnClick}>Редактировать</button>
-          <Link to={`/`} className='profile__link'>Выйти из аккаунта</Link>
+          <button type='button' className='profile__exit-button' onClick={signOut}>Выйти из аккаунта</button>
         </div>
       }
     </section>

@@ -6,7 +6,7 @@ import logo from '../../images/logo.svg';
 import Navigation from '../Navigation/Navigation';
 import Burger from '../Burger/Burger';
 
-const Header = ({loggedIn}) => {
+const Header = ({loggedIn, onSignOut}) => {
   const { pathname } = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -17,7 +17,11 @@ const Header = ({loggedIn}) => {
   return (
     <header className={headerClassNames}>
       <div className='header__content'>
-        <Burger loggedIn={loggedIn} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+        <Burger
+          loggedIn={loggedIn}
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+        />
         <Link to='/' className={loggedIn ? '' : 'header__logo-link'}>
           <img src={logo} alt='Логотип учебного проекта' className='logo' />
         </Link>

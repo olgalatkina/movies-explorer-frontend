@@ -18,7 +18,7 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
-  const [loggedIn, setLoggedIn] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [allMovies, setAllMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
@@ -34,14 +34,37 @@ const App = () => {
   });
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
   const [tooltipSettings, setTooltipSettings] = useState({
-    message: 'test',
+    message: '',
     isSuccess: false,
   });
 
   const navigate = useNavigate();
 
-  // Auth
+  useEffect(() => {
+    if (loggedIn) {
+      MainApi.setToken();
+      MainApi.getUserInfo()
+        .then((me) => {
+          setCurrentUser(me);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {})
+    }
+  }, [loggedIn]);
 
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      MainApi
+        .checkToken(jwt)
+        .then((res) => {
+          setLoggedIn(true);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [navigate]);
 
   const handleInfoTooltip = () => setInfoTooltipPopupOpen(true);
 
@@ -55,6 +78,56 @@ const App = () => {
     }
   };
 
+  const handleUpdateUser = (data) => {
+    MainApi
+      .changeUserInfo(data)
+      .then((newData) => {
+        console.log('handleUpdateUser: ', newData);
+        setCurrentUser(newData);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        closeAllPopups();
+      })
+  };
+
+  const handleLogin = (email, password) => {
+    MainApi
+      .login(email, password)
+      .then((res) => {
+        localStorage.setItem('jwt', res.token);
+        setLoggedIn(true);
+        navigate('/movies');
+      })
+      .catch((err) => {
+        setTooltipSettings({
+          message: err.message,
+          isSuccess: false,
+        });
+        handleInfoTooltip();
+      });
+  }
+
+  const handleRegister = (name, email, password) => {
+    MainApi
+      .register(name, email, password)
+      .then(() => {
+        setTooltipSettings({
+          message: 'Вы успешно зарегистрировались!',
+          isSuccess: true,
+        });
+        handleInfoTooltip();
+      })
+      .catch((err) => {
+        setTooltipSettings({
+          message: err.message,
+          isSuccess: false,
+        });
+        handleInfoTooltip();
+      })
+      .finally(() => {});
+  }
+
   const signOut = () => {
     localStorage.clear();
     navigate('/');
@@ -67,11 +140,11 @@ const App = () => {
         <Routes>
           <Route
             path='/signin'
-            element={<Login />}
+            element={<Login handleLogin={handleLogin} />}
           />
           <Route
             path='/signup'
-            element={<Register />}
+            element={<Register handleRegister={handleRegister} />}
           />
           <Route
             exact path='/'
@@ -108,7 +181,7 @@ const App = () => {
             element={
               <>
                 <Header loggedIn={loggedIn} />
-                <Profile />
+                <Profile signOut={signOut} handleUpdateUser={handleUpdateUser} />
               </>
             }
           />

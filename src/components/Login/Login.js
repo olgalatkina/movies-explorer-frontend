@@ -1,8 +1,21 @@
+import { useState } from 'react';
 import SignWithForm from '../SignWithForm/SignWithForm';
 
-const Login = () => {
+const Login = ({handleLogin}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmail = (evt) => {
+    setEmail(evt.target.value);
+  };
+
+  const handlePassword = (evt) => {
+    setPassword(evt.target.value);
+  };
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    handleLogin(email, password);
   };
 
   return (
@@ -21,6 +34,7 @@ const Login = () => {
           name='email'
           id='email'
           required
+          onChange={handleEmail}
         />
         <span className='form__error' id='email-error' />
       </label>
@@ -32,6 +46,7 @@ const Login = () => {
           name='password'
           id='password'
           required
+          onChange={handlePassword}
         />
         <span className='form__error' id='password-error' />
       </label>

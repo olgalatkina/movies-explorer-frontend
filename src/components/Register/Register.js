@@ -1,8 +1,26 @@
+import { useState } from 'react';
 import SignWithForm from "../SignWithForm/SignWithForm";
 
-const Register = () => {
+const Register = ({handleRegister}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleName = (evt) => {
+    setName(evt.target.value);
+  };
+
+  const handleEmail = (evt) => {
+    setEmail(evt.target.value);
+  };
+
+  const handlePassword = (evt) => {
+    setPassword(evt.target.value);
+  };
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    handleRegister(name, email, password);
   };
 
   return (
@@ -21,6 +39,7 @@ const Register = () => {
           name='name'
           id='name'
           required
+          onChange={handleName}
         />
         <span className='form__error' id='email-error' />
       </label>
@@ -32,6 +51,7 @@ const Register = () => {
           name='email'
           id='email'
           required
+          onChange={handleEmail}
         />
         <span className='form__error' id='email-error' />
       </label>
@@ -43,6 +63,7 @@ const Register = () => {
           name='password'
           id='password'
           required
+          onChange={handlePassword}
         />
         <span className='form__error' id='password-error' />
       </label>
