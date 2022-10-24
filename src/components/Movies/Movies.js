@@ -2,7 +2,9 @@ import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-const movies = [];
+// const movies = [];
+import mock from '../../utils/mock';
+const movies = mock;
 
 const Movies = () => {
   const handleSubmitSearch = () => {};

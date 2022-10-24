@@ -17,3 +17,15 @@ export const CodeError = {
 
 export const nameRegExp = '[A-Za-zА-Яа-яЁё-]+[A-Za-zА-Яа-яЁё\\s-]*[A-Za-zА-Яа-яЁё-]*';
 export const emailRegExp = '([a-z0-9]+(?:[._-][a-z0-9]+)*)@([a-z0-9]+(?:[.-][a-z0-9]+)*\\.[a-z]{2,})';
+
+export const Breakpoint = {
+  MOBILE: 480,
+  TABLET: 1010,
+  DESKTOP: 1280,
+};
+
+export const Length = {
+  MOBILE: 5,
+  TABLET: 8,
+  DESKTOP: 12,
+}
