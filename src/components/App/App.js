@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
 import './App.css';
@@ -14,10 +14,49 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [allMovies, setAllMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [searchResultAll, setSearchResultAll] = useState({
+    keyWord: '',
+    result: [],
+    isShort: false,
+  });
+  const [searchResultSaved, setSearchResultSaved] = useState({
+    keyWord: '',
+    result: [],
+    isShort: false,
+  });
+  const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
+  const [tooltipSettings, setTooltipSettings] = useState({
+    message: 'test',
+    isSuccess: false,
+  });
+
+  const navigate = useNavigate();
+
+  const handleInfoTooltip = () => setInfoTooltipPopupOpen(true);
+
+  const closeAllPopups = () => {
+    setInfoTooltipPopupOpen(false);
+  }
+
+  const handleOverlayClick = (evt) => {
+    if (evt.target === evt.currentTarget) {
+      closeAllPopups();
+    }
+  };
+
+  const signOut = () => {
+    localStorage.clear();
+    navigate('/');
+    setLoggedIn(false);
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -75,6 +114,13 @@ const App = () => {
             element={<NotFound />}
           />
         </Routes>
+
+        <InfoTooltip
+          isOpen={isInfoTooltipPopupOpen}
+          onClose={closeAllPopups}
+          tooltipSettings={tooltipSettings}
+          onOverlayClick={handleOverlayClick}
+        />
       </div>
     </CurrentUserContext.Provider>
   );

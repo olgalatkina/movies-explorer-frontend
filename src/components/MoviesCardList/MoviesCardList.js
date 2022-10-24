@@ -10,7 +10,7 @@ const MoviesCardList = ({ movies }) => {
   return (
     <section className='cards'>
       <div className='cards__content'>
-        <p className='cards__search-message'>d hfyj ukil guol;l iop;</p>
+        <p className='cards__search-message' />
         <ul className='cards__list'>
           {movies.map((movie) => (
             <MoviesCard
@@ -19,7 +19,7 @@ const MoviesCardList = ({ movies }) => {
             />
           ))}
         </ul>
-        {pathname === '/movies'
+        {pathname === '/movies' && movies.length
           ?
           <button
             className='cards__more-btn button'
