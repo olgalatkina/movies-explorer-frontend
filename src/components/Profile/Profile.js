@@ -25,6 +25,7 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           name='name'
           id='name'
           value={userName}
+          onChange={()=> {}}
         />
       </div>
       <div className='profile__line'>
@@ -35,6 +36,7 @@ const ProfileForm = ({ buttonText, formName, setIsEdit, userName, email }) => {
           name='email'
           id='email'
           value={email}
+          onChange={()=> {}}
         />
       </div>
       <p className='profile__error' />

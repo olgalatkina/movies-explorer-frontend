@@ -9,6 +9,7 @@ const FilterCheckbox = ({ isShort, setIsShot }) => {
           onClick={() => setIsShot(!isShort)}
           type='checkbox'
           checked={isShort}
+          onChange={() => {}}
         />
         <span className='checkbox__slider' />
         <span className='checkbox__name'>Короткометражки</span>

@@ -1,7 +1,7 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-import movies from '../../utils/mock';
+const movies = [];
 
 const SavedMovies = () => {
   return (
