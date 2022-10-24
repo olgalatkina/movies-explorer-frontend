@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
 import './App.css';
@@ -140,11 +140,20 @@ const App = () => {
         <Routes>
           <Route
             path='/signin'
-            element={<Login handleLogin={handleLogin} />}
+            element={
+              loggedIn ?
+              <Navigate to="/" />
+              :
+              <Login handleLogin={handleLogin} />
+            }
           />
           <Route
             path='/signup'
-            element={<Register handleRegister={handleRegister} />}
+            element={
+              loggedIn ?
+              <Navigate to="/" />
+              :
+              <Register handleRegister={handleRegister} />}
           />
           <Route
             exact path='/'
@@ -159,30 +168,30 @@ const App = () => {
           <Route
             exact path='/movies'
             element={
-              <>
+              <ProtectedRoute loggedIn={loggedIn} >
                 <Header loggedIn={loggedIn} />
                 <Movies allMovies={allMovies} />
                 <Footer />
-              </>
+              </ProtectedRoute>
             }
           />
           <Route
             exact path='/saved-movies'
             element={
-              <>
+              <ProtectedRoute loggedIn={loggedIn} >
                 <Header loggedIn={loggedIn} />
                 <SavedMovies savedMovies={savedMovies} />
                 <Footer />
-              </>
+              </ProtectedRoute>
             }
           />
           <Route
             exact path='/profile'
             element={
-              <>
+              <ProtectedRoute loggedIn={loggedIn} >
                 <Header loggedIn={loggedIn} />
                 <Profile signOut={signOut} handleUpdateUser={handleUpdateUser} />
-              </>
+              </ProtectedRoute>
             }
           />
           <Route
