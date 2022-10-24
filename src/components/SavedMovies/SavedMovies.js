@@ -1,13 +1,11 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-const movies = [];
-
-const SavedMovies = () => {
+const SavedMovies = ({savedMovies}) => {
   return (
     <main>
       <SearchForm />
-      <MoviesCardList movies={movies} />
+      <MoviesCardList movies={savedMovies} />
     </main>
   )
 };

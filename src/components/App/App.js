@@ -40,6 +40,9 @@ const App = () => {
 
   const navigate = useNavigate();
 
+  // Auth
+
+
   const handleInfoTooltip = () => setInfoTooltipPopupOpen(true);
 
   const closeAllPopups = () => {
@@ -85,7 +88,7 @@ const App = () => {
             element={
               <>
                 <Header loggedIn={loggedIn} />
-                <Movies />
+                <Movies allMovies={allMovies} />
                 <Footer />
               </>
             }
@@ -95,7 +98,7 @@ const App = () => {
             element={
               <>
                 <Header loggedIn={loggedIn} />
-                <SavedMovies />
+                <SavedMovies savedMovies={savedMovies} />
                 <Footer />
               </>
             }
