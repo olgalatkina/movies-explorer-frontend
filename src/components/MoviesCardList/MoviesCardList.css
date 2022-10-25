@@ -14,10 +14,10 @@
 .cards__search-message {
   margin: 0 auto;
   font-weight: 500;
-  font-size: 12px;
-  line-height: 15px;
+  font-size: 11px;
+  line-height: 18px;
   text-align: center;
-  color: var(--accent);
+  color: var(--grey-text);
 }
 
 .cards__list {
@@ -71,8 +71,8 @@
   }
 
   .cards__search-message {
-    font-size: 13px;
-    line-height: 16px;
+    font-size: 14px;
+    line-height: 18px;
   }
 
   .cards__more-btn {

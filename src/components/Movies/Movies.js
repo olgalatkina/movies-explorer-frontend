@@ -15,7 +15,6 @@ const Movies = () => {
   // надо добавить вывод строки
 
   const storageAllMovies = JSON.parse(localStorage.getItem('allMovies')) || [];
-  // console.log('storageAllMovies: ', storageAllMovies);
 
   useEffect(() => {
     const storageSearchResult = JSON.parse(localStorage.getItem('storageSearchResult')) || [];
@@ -66,7 +65,10 @@ const Movies = () => {
   };
 
   const renderMovies = () => {
-
+    if (isNothingFound) {
+      return <p className='cards__search-message'>{SearchMessage.NOT_FOUND}</p>;
+    }
+    return <MoviesCardList movies={searchedMovies} />
   };
 
   return (
@@ -75,9 +77,7 @@ const Movies = () => {
         handleSubmitSearch={handleSubmitSearch}
         handleChangeCheckbox={handleChangeCheckbox}
       />
-      {isLoading
-        ? <Preloader />
-        : <MoviesCardList movies={searchedMovies} />}
+      {isLoading ? <Preloader /> : renderMovies()}
     </main>
   )
 };

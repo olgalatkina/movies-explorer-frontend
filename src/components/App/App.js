@@ -32,27 +32,18 @@ const App = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      MoviesApi.getMovies()
-        .then((movies) => {
-          const normalizedMovies = normalizeMovies(movies);
-          localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
-        })
-        .catch((err) => console.log(ErrorMessage.BAD_REQUEST, err.message))
-    }
-  }, [loggedIn]);
-
-  useEffect(() => {
-    if (loggedIn) {
       MainApi.setToken();
-      Promise.all([MainApi.getUserInfo(), MainApi.getSavedMovies()])
-        .then(([me, savedMovies]) => {
+      Promise.all([MainApi.getUserInfo(), MainApi.getSavedMovies(), MoviesApi.getMovies()])
+        .then(([me, savedMovies, allMovies]) => {
           setCurrentUser(me);
           setSavedMovies(savedMovies.filter((movie) => movie.owner === currentUser.id));
+          const normalizedMovies = normalizeMovies(allMovies);
+          localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
         })
         .catch((err) => console.log(ErrorMessage.BAD_REQUEST, err.message))
         .finally(() => {})
     }
-  }, [loggedIn, currentUser]);
+  }, [loggedIn]);
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
