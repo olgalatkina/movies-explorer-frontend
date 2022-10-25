@@ -8,3 +8,4 @@ https://github.com/olgalatkina/movies-explorer-frontend/pull/2
 
 ### Деплой
 https://olgalatkina-movies.netlify.app/
+https://movies.olgalatkina.nomoredomains.sbs/
