@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
+import { ErrorMessage } from '../../utils/constants';
+import { normalizeMovies } from '../../utils/utils';
 import './App.css';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -19,19 +21,7 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [allMovies, setAllMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [searchResultAll, setSearchResultAll] = useState({
-    keyWord: '',
-    result: [],
-    isShort: false,
-  });
-  const [searchResultSaved, setSearchResultSaved] = useState({
-    keyWord: '',
-    result: [],
-    isShort: false,
-  });
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
   const [tooltipSettings, setTooltipSettings] = useState({
     message: '',
@@ -42,15 +32,27 @@ const App = () => {
 
   useEffect(() => {
     if (loggedIn) {
-      MainApi.setToken();
-      MainApi.getUserInfo()
-        .then((me) => {
-          setCurrentUser(me);
+      MoviesApi.getMovies()
+        .then((movies) => {
+          const normalizedMovies = normalizeMovies(movies);
+          localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
         })
-        .catch((err) => console.log(err))
-        .finally(() => {})
+        .catch((err) => console.log(ErrorMessage.BAD_REQUEST, err.message))
     }
   }, [loggedIn]);
+
+  useEffect(() => {
+    if (loggedIn) {
+      MainApi.setToken();
+      Promise.all([MainApi.getUserInfo(), MainApi.getSavedMovies()])
+        .then(([me, savedMovies]) => {
+          setCurrentUser(me);
+          setSavedMovies(savedMovies.filter((movie) => movie.owner === currentUser.id));
+        })
+        .catch((err) => console.log(ErrorMessage.BAD_REQUEST, err.message))
+        .finally(() => {})
+    }
+  }, [loggedIn, currentUser]);
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -61,7 +63,7 @@ const App = () => {
           setLoggedIn(true);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(ErrorMessage.BAD_REQUEST, err.message);
         });
     }
   }, [navigate]);
@@ -84,7 +86,13 @@ const App = () => {
       .then((newData) => {
         setCurrentUser(newData);
       })
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        setTooltipSettings({
+          message: ErrorMessage.BAD_REQUEST,
+          isSuccess: false,
+        });
+        handleInfoTooltip();
+      })
       .finally(() => {
         closeAllPopups();
       })
@@ -100,7 +108,7 @@ const App = () => {
       })
       .catch((err) => {
         setTooltipSettings({
-          message: err.message,
+          message: ErrorMessage.BAD_REQUEST,
           isSuccess: false,
         });
         handleInfoTooltip();
@@ -119,7 +127,7 @@ const App = () => {
       })
       .catch((err) => {
         setTooltipSettings({
-          message: err.message,
+          message: ErrorMessage.BAD_REQUEST,
           isSuccess: false,
         });
         handleInfoTooltip();
@@ -129,12 +137,13 @@ const App = () => {
 
   const signOut = () => {
     localStorage.clear();
-    navigate('/');
     setLoggedIn(false);
+    setSavedMovies([]);
+    navigate('/');
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={{currentUser, setCurrentUser, savedMovies, setSavedMovies}}>
       <div className='app'>
         <Routes>
           <Route
@@ -169,7 +178,7 @@ const App = () => {
             element={
               <ProtectedRoute loggedIn={loggedIn} >
                 <Header loggedIn={loggedIn} />
-                <Movies allMovies={allMovies} isLoading={isLoading}/>
+                <Movies />
                 <Footer />
               </ProtectedRoute>
             }
@@ -179,7 +188,7 @@ const App = () => {
             element={
               <ProtectedRoute loggedIn={loggedIn} >
                 <Header loggedIn={loggedIn} />
-                <SavedMovies savedMovies={savedMovies} isLoading={isLoading}/>
+                <SavedMovies />
                 <Footer />
               </ProtectedRoute>
             }

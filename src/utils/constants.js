@@ -7,16 +7,20 @@ export const SearchMessage = {
   NOT_AVAILABLE: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.'
 }
 
-export const CodeError = {
-  BAD_REQUEST: 400,
-  UNAUTHORIZED: 401,
-  NOT_FOUND: 404,
-  ALREADY_EXISTS: 409, // ConflictError
-  SERVER_ERROR: 500,
-};
+export const ErrorMessage = {
+  BAD_REQUEST: 'Что-то пошло не так.',
+}
 
-export const nameRegExp = '[A-Za-zА-Яа-яЁё-]+[A-Za-zА-Яа-яЁё\\s-]*[A-Za-zА-Яа-яЁё-]*';
-export const emailRegExp = '([a-z0-9]+(?:[._-][a-z0-9]+)*)@([a-z0-9]+(?:[.-][a-z0-9]+)*\\.[a-z]{2,})';
+export const CUSTOM_VALIDATION = {
+  username: {
+    pattern: '^[\\sa-zA-Zа-яА-ЯёЁ-]+$',
+    message: 'Имя может содержать только латиницу, кириллицу, пробел или дефис',
+  },
+  email: {
+    pattern: '^[-\\w.]+@([A-z0-9][-A-z0-9]+\\.)+[A-z]{2,4}$',
+    message: 'Некорректный Email-адрес',
+  },
+};
 
 export const Breakpoint = {
   MOBILE: 480,
@@ -29,3 +33,6 @@ export const Length = {
   TABLET: 8,
   DESKTOP: 12,
 }
+
+export const SHORT_FILM_DURATION = 40;
+export const IMAGES_URL = 'https://api.nomoreparties.co';

@@ -1,23 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect , useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCardList.css';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { Breakpoint, Length } from '../../utils/constants';
 
 const MoviesCardList = ({ movies }) => {
   const { pathname } = useLocation();
-  const windowWidth = window.innerWidth;
+  const { savedMovies } = useContext(CurrentUserContext);
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const handleResizeWindow = () => setWindowWidth(window.innerWidth);
 
   const [isMoreButton, setIsMoreButton] = useState(false);
   const [chunkLength, setChunkLength] = useState(0);
 
   useEffect(() => {
-    if (pathname === '/movies' ) {
-      movies.length > chunkLength ? setIsMoreButton(true) : setIsMoreButton(false);
-    } else {
-      setIsMoreButton(false);
-    }
-  }, [pathname, movies.length, chunkLength]);
+    window.addEventListener('resize', handleResizeWindow);
+    return () => {
+      window.removeEventListener('resize', handleResizeWindow);
+    };
+  }, []);
 
   useEffect(() => {
     if (windowWidth <= Breakpoint.MOBILE && movies.length >= Length.MOBILE) {
@@ -31,6 +34,14 @@ const MoviesCardList = ({ movies }) => {
     }
   }, [windowWidth, movies.length]);
 
+  useEffect(() => {
+    if (pathname === '/movies' ) {
+      movies.length > chunkLength ? setIsMoreButton(true) : setIsMoreButton(false);
+    } else {
+      setIsMoreButton(false);
+    }
+  }, [pathname, movies.length, chunkLength]);
+
   const handleMoreBtnClick = () => {
     setChunkLength((current) => {
       if (windowWidth <= Breakpoint.TABLET) {
@@ -41,17 +52,38 @@ const MoviesCardList = ({ movies }) => {
     })
   };
 
+  const checkIsSaved = (movie) => {
+    const targetMovie = savedMovies.find((film) => film.movieId === movie.movieId);
+    return targetMovie
+      ? { isSaved: true, id: targetMovie._id }
+      : { isSaved: false, id: '' }
+  };
+
+  const renderMovieCards = () => {
+    if (pathname === '/movies') {
+      return movies.length ? movies.slice(0, chunkLength).map((movie) => (
+        <MoviesCard
+          key={movie.movieId}
+          movie={movie}
+          saveStatus={checkIsSaved(movie)}
+        />
+      )) : '';
+    } else {
+      return movies.length ? movies.map((movie) => (
+        <MoviesCard
+          key={movie.movieId}
+          movie={movie}
+          saveStatus={{ isSaved: true, id: movie._id }}
+        />
+      )) : '';
+    }
+  };
+
   return (
     <section className='cards'>
       <div className='cards__content'>
-        <p className='cards__search-message' />
         <ul className='cards__list'>
-          {movies.length ? movies.slice(0, chunkLength).map((movie) => (
-            <MoviesCard
-              key={movie.id}
-              movie={movie}
-            />
-          )) : ''}
+          {renderMovieCards()}
         </ul>
         {isMoreButton ?
           <button
