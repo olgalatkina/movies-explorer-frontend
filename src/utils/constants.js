@@ -7,11 +7,12 @@ export const SearchMessage = {
   NOT_AVAILABLE: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.'
 }
 
-export const ErrorMessage = {
+export const AppMessage = {
+  SUCCESS: 'Вы успешно зарегистрировались!',
   BAD_REQUEST: 'Что-то пошло не так.',
 }
 
-export const CUSTOM_VALIDATION = {
+export const VALIDATION = {
   username: {
     pattern: '^[\\sa-zA-Zа-яА-ЯёЁ-]+$',
     message: 'Имя может содержать только латиницу, кириллицу, пробел или дефис',

@@ -1,26 +1,22 @@
-import { useState } from 'react';
+import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { VALIDATION } from '../../utils/constants';
 import SignWithForm from "../SignWithForm/SignWithForm";
 
-const Register = ({handleRegister}) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleName = (evt) => {
-    setName(evt.target.value);
-  };
-
-  const handleEmail = (evt) => {
-    setEmail(evt.target.value);
-  };
-
-  const handlePassword = (evt) => {
-    setPassword(evt.target.value);
-  };
+const Register = ({ handleRegister, error }) => {
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+  } = useFormWithValidation();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    handleRegister(name, email, password);
+    handleRegister(
+      values.username,
+      values.email,
+      values.password,
+    );
   };
 
   return (
@@ -30,18 +26,24 @@ const Register = ({handleRegister}) => {
       question='Уже зарегистрированы?'
       linkText='Войти'
       link='signin'
+      error={error}
       onSubmit={handleSubmit}
+      isValid={isValid}
     >
       <label htmlFor='name' className='form__label'>Имя
         <input
           className='form__input'
           type='text'
-          name='name'
+          name='username'
           id='name'
+          minLength='2'
+          maxLength='20'
           required
-          onChange={handleName}
+          value={values.username || ''}
+          pattern={VALIDATION.username.pattern}
+          onChange={handleChange}
         />
-        <span className='form__error' id='email-error' />
+        <span className='form__error' id='email-error'>{errors.username}</span>
       </label>
 
       <label htmlFor='email' className='form__label'>E-mail
@@ -50,10 +52,14 @@ const Register = ({handleRegister}) => {
           type='email'
           name='email'
           id='email'
+          minLength='5'
+          maxLength='30'
           required
-          onChange={handleEmail}
+          value={values.email || ''}
+          pattern={VALIDATION.email.pattern}
+          onChange={handleChange}
         />
-        <span className='form__error' id='email-error' />
+        <span className='form__error' id='email-error'>{errors.email}</span>
       </label>
 
       <label htmlFor='email' className='form__label'>Пароль
@@ -62,10 +68,12 @@ const Register = ({handleRegister}) => {
           type='password'
           name='password'
           id='password'
+          maxLength='30'
           required
-          onChange={handlePassword}
+          value={values.password || ''}
+          onChange={handleChange}
         />
-        <span className='form__error' id='password-error' />
+        <span className='form__error' id='password-error'>{errors.password}</span>
       </label>
     </SignWithForm>
   )

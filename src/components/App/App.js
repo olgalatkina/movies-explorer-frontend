@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
-import { ErrorMessage } from '../../utils/constants';
+import { AppMessage } from '../../utils/constants';
 import { normalizeMovies } from '../../utils/utils';
 import './App.css';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
@@ -22,6 +22,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
+  const [error, setError] = useState('');
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
   const [tooltipSettings, setTooltipSettings] = useState({
     message: '',
@@ -40,7 +41,7 @@ const App = () => {
           const normalizedMovies = normalizeMovies(allMovies);
           localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
         })
-        .catch((err) => console.log(ErrorMessage.BAD_REQUEST, err.message))
+        .catch(() => console.log(AppMessage.BAD_REQUEST))
         .finally(() => {})
     }
   }, [loggedIn]);
@@ -53,8 +54,8 @@ const App = () => {
         .then((res) => {
           setLoggedIn(true);
         })
-        .catch((err) => {
-          console.log(ErrorMessage.BAD_REQUEST, err.message);
+        .catch(() => {
+          console.log(AppMessage.BAD_REQUEST);
         });
     }
   }, [navigate]);
@@ -77,9 +78,9 @@ const App = () => {
       .then((newData) => {
         setCurrentUser(newData);
       })
-      .catch((err) => {
+      .catch(() => {
         setTooltipSettings({
-          message: ErrorMessage.BAD_REQUEST,
+          message: AppMessage.BAD_REQUEST,
           isSuccess: false,
         });
         handleInfoTooltip();
@@ -95,14 +96,16 @@ const App = () => {
       .then((res) => {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
+        setError('');
         navigate('/movies');
       })
       .catch((err) => {
         setTooltipSettings({
-          message: ErrorMessage.BAD_REQUEST,
+          message: AppMessage.BAD_REQUEST,
           isSuccess: false,
         });
         handleInfoTooltip();
+        setError(err);
       });
   }
 
@@ -111,17 +114,18 @@ const App = () => {
       .register(name, email, password)
       .then(() => {
         setTooltipSettings({
-          message: 'Вы успешно зарегистрировались!',
+          message: AppMessage.SUCCESS,
           isSuccess: true,
         });
         handleInfoTooltip();
       })
       .catch((err) => {
         setTooltipSettings({
-          message: ErrorMessage.BAD_REQUEST,
+          message: AppMessage.BAD_REQUEST,
           isSuccess: false,
         });
         handleInfoTooltip();
+        setError(err);
       })
       .finally(() => {});
   }
@@ -143,7 +147,7 @@ const App = () => {
               loggedIn ?
               <Navigate to="/" />
               :
-              <Login handleLogin={handleLogin} />
+              <Login handleLogin={handleLogin} error={error} />
             }
           />
           <Route
@@ -152,7 +156,7 @@ const App = () => {
               loggedIn ?
               <Navigate to="/" />
               :
-              <Register handleRegister={handleRegister} />}
+              <Register handleRegister={handleRegister} error={error} />}
           />
           <Route
             exact path='/'

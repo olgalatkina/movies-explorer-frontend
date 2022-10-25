@@ -4,7 +4,8 @@ import cn from 'classnames';
 import './Profile.css';
 
 const ProfileForm = ({ formName, handleUpdateUser }) => {
-  const {name, email} = useContext(CurrentUserContext);
+  const { name, email } = useContext(CurrentUserContext).currentUser;
+
   const [userName, setUserName] = useState(name);
   const [userEmail, setUserEmail] = useState(email);
   const [disabledButton, setDisabledButton] = useState(true);
@@ -77,7 +78,7 @@ const ProfileForm = ({ formName, handleUpdateUser }) => {
 }
 
 const Profile = ({signOut, handleUpdateUser}) => {
-  const { name, email } = useContext(CurrentUserContext);
+  const { name, email } = useContext(CurrentUserContext).currentUser;
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEditBtnClick = () => setIsEdit(true);

@@ -1,5 +1,5 @@
 import { useState, useCallback} from 'react';
-import { CUSTOM_VALIDATION } from '../utils/constants';
+import { VALIDATION } from '../utils/constants';
 
 const useFormWithValidation = ({initialValues} = {}) => {
   const [values, setValues] = useState(initialValues || {});
@@ -14,12 +14,12 @@ const useFormWithValidation = ({initialValues} = {}) => {
     switch (name) {
       case 'username':
         target.validity.patternMismatch
-          ? target.setCustomValidity(CUSTOM_VALIDATION.username.message)
+          ? target.setCustomValidity(VALIDATION.username.message)
           : target.setCustomValidity('')
         break;
       case 'email':
         target.validity.patternMismatch
-          ? target.setCustomValidity(CUSTOM_VALIDATION.email.message)
+          ? target.setCustomValidity(VALIDATION.email.message)
           : target.setCustomValidity('')
         break;
       default: target.setCustomValidity('')
