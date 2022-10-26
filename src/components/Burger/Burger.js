@@ -1,6 +1,6 @@
+import {useLocation} from 'react-router-dom';
 import cn from 'classnames';
 import './Burger.css';
-import {useLocation} from 'react-router-dom';
 
 const Burger = ({loggedIn, isMenuOpen, setIsMenuOpen}) => {
   const { pathname } = useLocation();

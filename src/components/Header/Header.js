@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import './Header.css';
@@ -6,9 +5,8 @@ import logo from '../../images/logo.svg';
 import Navigation from '../Navigation/Navigation';
 import Burger from '../Burger/Burger';
 
-const Header = ({loggedIn, onSignOut}) => {
+const Header = ({ loggedIn, isMenuOpen, setIsMenuOpen, handleOverlayClick }) => {
   const { pathname } = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const headerClassNames = cn('header', {
     'header_theme_dark': pathname === '/',
@@ -26,7 +24,11 @@ const Header = ({loggedIn, onSignOut}) => {
           <img src={logo} alt='Логотип учебного проекта' className='logo' />
         </Link>
         {loggedIn
-          ? <Navigation isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+          ? <Navigation
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+              handleOverlayClick={handleOverlayClick}
+            />
           :
           <nav className='header__navigation'>
             <Link to='/signup' className='header__register-link'>

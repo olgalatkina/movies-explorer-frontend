@@ -24,6 +24,7 @@ const App = () => {
   const [savedMovies, setSavedMovies] = useState([]);
   const [error, setError] = useState('');
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [tooltipSettings, setTooltipSettings] = useState({
     message: '',
     isSuccess: false,
@@ -35,9 +36,9 @@ const App = () => {
     if (loggedIn) {
       MainApi.setToken();
       Promise.all([MainApi.getUserInfo(), MainApi.getSavedMovies(), MoviesApi.getMovies()])
-        .then(([me, savedMovies, allMovies]) => {
+        .then(([me, apiSavedMovies, allMovies]) => {
           setCurrentUser(me);
-          setSavedMovies(savedMovies);
+          setSavedMovies(apiSavedMovies.filter((film) => film.owner === me._id));
           const normalizedMovies = normalizeMovies(allMovies);
           localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
         })
@@ -69,6 +70,7 @@ const App = () => {
   const handleOverlayClick = (evt) => {
     if (evt.target === evt.currentTarget) {
       closeAllPopups();
+      setIsMenuOpen(false);
     }
   };
 
@@ -162,7 +164,12 @@ const App = () => {
             exact path='/'
             element={
               <>
-                <Header loggedIn={loggedIn} />
+                <Header
+                  loggedIn={loggedIn}
+                  isMenuOpen={isMenuOpen}
+                  setIsMenuOpen={setIsMenuOpen}
+                  handleOverlayClick={handleOverlayClick}
+                />
                 <Main />
                 <Footer />
               </>
@@ -172,7 +179,12 @@ const App = () => {
             exact path='/movies'
             element={
               <ProtectedRoute loggedIn={loggedIn} >
-                <Header loggedIn={loggedIn} />
+                <Header
+                  loggedIn={loggedIn}
+                  isMenuOpen={isMenuOpen}
+                  setIsMenuOpen={setIsMenuOpen}
+                  handleOverlayClick={handleOverlayClick}
+                />
                 <Movies />
                 <Footer />
               </ProtectedRoute>
@@ -182,7 +194,12 @@ const App = () => {
             exact path='/saved-movies'
             element={
               <ProtectedRoute loggedIn={loggedIn} >
-                <Header loggedIn={loggedIn} />
+                <Header
+                  loggedIn={loggedIn}
+                  isMenuOpen={isMenuOpen}
+                  setIsMenuOpen={setIsMenuOpen}
+                  handleOverlayClick={handleOverlayClick}
+                />
                 <SavedMovies />
                 <Footer />
               </ProtectedRoute>
@@ -192,7 +209,12 @@ const App = () => {
             exact path='/profile'
             element={
               <ProtectedRoute loggedIn={loggedIn} >
-                <Header loggedIn={loggedIn} />
+                <Header
+                  loggedIn={loggedIn}
+                  isMenuOpen={isMenuOpen}
+                  setIsMenuOpen={setIsMenuOpen}
+                  handleOverlayClick={handleOverlayClick}
+                />
                 <Profile signOut={signOut} handleUpdateUser={handleUpdateUser} />
               </ProtectedRoute>
             }
