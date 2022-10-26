@@ -88,7 +88,6 @@ const App = () => {
   };
 
   const handleUpdateUser = (data) => {
-    setIsLoading(true);
     MainApi
       .changeUserInfo(data)
       .then((newData) => {
@@ -106,7 +105,6 @@ const App = () => {
       })
       .finally(() => {
         // closeAllPopups();
-        setIsLoading(false);
       });
   };
 

@@ -40,8 +40,10 @@
   font-weight: 500;
   font-size: 11px;
   line-height: 13px;
-  border: none;
   text-align: right;
+  color: var(--black);
+  border: none;
+  background-color: transparent;
   padding: 12px 0;
 }
 
@@ -52,7 +54,6 @@
 .profile__edit-button {
   display: inline-flex;
   align-self: center;
-  margin-top: auto;
   padding: 8px;
   font-weight: 400;
   font-size: 12px;
