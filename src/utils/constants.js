@@ -1,6 +1,10 @@
 export const MOVIES_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
 export const MAIN_BASE_URL = 'https://api.movies.olgalatkina.nomoredomains.sbs';
 
+export const IMAGES_URL = 'https://api.nomoreparties.co';
+export const SHORT_FILM_DURATION = 40;
+export const HTTP_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+
 export const SearchMessage = {
   EMPTY: 'Нужно ввести ключевое слово',
   NOT_FOUND: 'Ничего не найдено',
@@ -34,6 +38,3 @@ export const Length = {
   TABLET: 8,
   DESKTOP: 12,
 }
-
-export const SHORT_FILM_DURATION = 40;
-export const IMAGES_URL = 'https://api.nomoreparties.co';

@@ -1,8 +1,9 @@
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import { VALIDATION } from '../../utils/constants';
 import SignWithForm from '../SignWithForm/SignWithForm';
+import Preloader from '../Preloader/Preloader';
 
-const Login = ({ handleLogin, error }) => {
+const Login = ({ handleLogin, error, isLoading }) => {
   const {
     values,
     handleChange,
@@ -19,6 +20,10 @@ const Login = ({ handleLogin, error }) => {
   };
 
   return (
+    isLoading
+    ?
+    <Preloader />
+    :
     <SignWithForm
       buttonText='Войти'
       formName='login'

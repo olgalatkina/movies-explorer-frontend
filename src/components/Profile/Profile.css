@@ -19,7 +19,7 @@
   justify-content: space-between;
   align-items: baseline;
   gap: 10px;
-  padding: 16px 0;
+  padding: 4px 0;
 }
 
 .profile__line:not(:first-of-type) {
@@ -42,7 +42,7 @@
   line-height: 13px;
   border: none;
   text-align: right;
-  padding: 0;
+  padding: 12px 0;
 }
 
 .profile__text_weight_smaller {
@@ -89,7 +89,10 @@
 }
 
 .profile__error {
-  min-height: 13px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 26px;
   margin: auto 0 20px;
   font-weight: 400;
   font-size: 11px;

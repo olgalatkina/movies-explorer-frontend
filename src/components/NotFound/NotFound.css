@@ -27,8 +27,10 @@
   bottom: 30px;
   font-size: 12px;
   line-height: 15px;
-  text-decoration: none;
   color: var(--secondary);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   transition: opacity .3s linear;
 }
 

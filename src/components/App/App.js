@@ -25,6 +25,7 @@ const App = () => {
   const [error, setError] = useState('');
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [tooltipSettings, setTooltipSettings] = useState({
     message: '',
     isSuccess: false,
@@ -35,14 +36,25 @@ const App = () => {
   useEffect(() => {
     if (loggedIn) {
       MainApi.setToken();
-      Promise.all([MainApi.getUserInfo(), MainApi.getSavedMovies(), MoviesApi.getMovies()])
-        .then(([me, apiSavedMovies, allMovies]) => {
+      Promise.all([MainApi.getUserInfo(), MainApi.getSavedMovies()])
+        .then(([me, apiSavedMovies]) => {
           setCurrentUser(me);
           setSavedMovies(apiSavedMovies.filter((film) => film.owner === me._id));
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {})
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (loggedIn) {
+      MainApi.setToken();
+      MoviesApi.getMovies()
+        .then((allMovies) => {
           const normalizedMovies = normalizeMovies(allMovies);
           localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
         })
-        .catch(() => console.log(AppMessage.BAD_REQUEST))
+        .catch((err) => console.log(err))
         .finally(() => {})
     }
   }, [loggedIn]);
@@ -55,8 +67,9 @@ const App = () => {
         .then((res) => {
           setLoggedIn(true);
         })
-        .catch(() => {
-          console.log(AppMessage.BAD_REQUEST);
+        .catch((err) => {
+          console.log(err);
+          signOut();
         });
     }
   }, [navigate]);
@@ -65,71 +78,82 @@ const App = () => {
 
   const closeAllPopups = () => {
     setInfoTooltipPopupOpen(false);
+    setIsMenuOpen(false);
   }
 
   const handleOverlayClick = (evt) => {
     if (evt.target === evt.currentTarget) {
       closeAllPopups();
-      setIsMenuOpen(false);
     }
   };
 
   const handleUpdateUser = (data) => {
+    setIsLoading(true);
     MainApi
       .changeUserInfo(data)
       .then((newData) => {
         setCurrentUser(newData);
+        navigate('/movies');
       })
-      .catch(() => {
+      .catch(async (err) => {
+        const { message } = await err.json();
         setTooltipSettings({
-          message: AppMessage.BAD_REQUEST,
+          message,
           isSuccess: false,
         });
         handleInfoTooltip();
+        setError(message);
       })
       .finally(() => {
-        closeAllPopups();
-      })
+        // closeAllPopups();
+        setIsLoading(false);
+      });
   };
 
   const handleLogin = (email, password) => {
+    setIsLoading(true);
     MainApi
       .login(email, password)
       .then((res) => {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
         setError('');
-        navigate('/movies');
       })
-      .catch((err) => {
+      .catch(async (err) => {
+        const { message } = await err.json();
         setTooltipSettings({
-          message: AppMessage.BAD_REQUEST,
+          message,
           isSuccess: false,
         });
         handleInfoTooltip();
-        setError(err);
+        setError(message);
+      })
+      .finally(() => {
+        // closeAllPopups();
+        setIsLoading(false);
       });
   }
 
   const handleRegister = (name, email, password) => {
+    setIsLoading(true);
     MainApi
       .register(name, email, password)
       .then(() => {
-        setTooltipSettings({
-          message: AppMessage.SUCCESS,
-          isSuccess: true,
-        });
-        handleInfoTooltip();
+        handleLogin(email, password);
       })
-      .catch((err) => {
+      .catch(async (err) => {
+        const { message } = await err.json();
         setTooltipSettings({
-          message: AppMessage.BAD_REQUEST,
+          message,
           isSuccess: false,
         });
         handleInfoTooltip();
-        setError(err);
+        setError(message);
       })
-      .finally(() => {});
+      .finally(() => {
+        // closeAllPopups();
+        setIsLoading(false);
+      });
   }
 
   const signOut = () => {
@@ -147,18 +171,18 @@ const App = () => {
             path='/signin'
             element={
               loggedIn ?
-              <Navigate to="/" />
+              <Navigate to='/movies' />
               :
-              <Login handleLogin={handleLogin} error={error} />
+              <Login handleLogin={handleLogin} error={error}  isLoading={isLoading} />
             }
           />
           <Route
             path='/signup'
             element={
               loggedIn ?
-              <Navigate to="/" />
+              <Navigate to='/movies' />
               :
-              <Register handleRegister={handleRegister} error={error} />}
+              <Register handleRegister={handleRegister} error={error}  isLoading={isLoading} />}
           />
           <Route
             exact path='/'
@@ -176,7 +200,7 @@ const App = () => {
             }
           />
           <Route
-            exact path='/movies'
+            path='/movies'
             element={
               <ProtectedRoute loggedIn={loggedIn} >
                 <Header
@@ -191,7 +215,7 @@ const App = () => {
             }
           />
           <Route
-            exact path='/saved-movies'
+            path='/saved-movies'
             element={
               <ProtectedRoute loggedIn={loggedIn} >
                 <Header
@@ -206,7 +230,7 @@ const App = () => {
             }
           />
           <Route
-            exact path='/profile'
+            path='/profile'
             element={
               <ProtectedRoute loggedIn={loggedIn} >
                 <Header
@@ -215,7 +239,7 @@ const App = () => {
                   setIsMenuOpen={setIsMenuOpen}
                   handleOverlayClick={handleOverlayClick}
                 />
-                <Profile signOut={signOut} handleUpdateUser={handleUpdateUser} />
+                <Profile signOut={signOut} handleUpdateUser={handleUpdateUser} isLoading={isLoading} />
               </ProtectedRoute>
             }
           />

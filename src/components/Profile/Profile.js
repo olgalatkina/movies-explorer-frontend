@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import cn from 'classnames';
 import './Profile.css';
+import Preloader from '../Preloader/Preloader';
 
 const ProfileForm = ({ formName, handleUpdateUser }) => {
   const { name, email } = useContext(CurrentUserContext).currentUser;
@@ -77,13 +78,16 @@ const ProfileForm = ({ formName, handleUpdateUser }) => {
   )
 }
 
-const Profile = ({signOut, handleUpdateUser}) => {
+const Profile = ({signOut, handleUpdateUser, isLoading}) => {
   const { name, email } = useContext(CurrentUserContext).currentUser;
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEditBtnClick = () => setIsEdit(true);
 
   return (
+    isLoading
+    ? <Preloader />
+    :
     <section className='profile'>
       <h1 className='profile__title'>{`Привет, ${name}!`}</h1>
       {isEdit
