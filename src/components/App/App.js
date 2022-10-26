@@ -171,7 +171,7 @@ const App = () => {
               loggedIn ?
               <Navigate to='/movies' />
               :
-              <Login handleLogin={handleLogin} error={error}  isLoading={isLoading} />
+              <Login handleLogin={handleLogin} error={error} />
             }
           />
           <Route
@@ -180,7 +180,7 @@ const App = () => {
               loggedIn ?
               <Navigate to='/movies' />
               :
-              <Register handleRegister={handleRegister} error={error}  isLoading={isLoading} />}
+              <Register handleRegister={handleRegister} error={error} />}
           />
           <Route
             exact path='/'
@@ -191,6 +191,7 @@ const App = () => {
                   isMenuOpen={isMenuOpen}
                   setIsMenuOpen={setIsMenuOpen}
                   handleOverlayClick={handleOverlayClick}
+                  onClose={closeAllPopups}
                 />
                 <Main />
                 <Footer />

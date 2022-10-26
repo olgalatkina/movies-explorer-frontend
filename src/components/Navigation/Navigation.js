@@ -35,17 +35,17 @@ const Navigation = ({isMenuOpen, setIsMenuOpen, handleOverlayClick}) => {
     <div className={navigationClassNames} onClick={handleOverlayClick}>
       <nav className='navigation__content'>
         <div className='navigation__wrapper'>
-          <Link to='/' className={mainLinkClassNames}>
+          <Link to='/' className={mainLinkClassNames} onClick={()=>{setIsMenuOpen(false)}}>
             Главная
           </Link>
-          <Link to='/movies' className={moviesLinkClassNames}>
+          <Link to='/movies' className={moviesLinkClassNames} onClick={()=>{setIsMenuOpen(false)}}>
             Фильмы
           </Link>
-          <Link to='/saved-movies' className={savedMoviesLinkClassNames}>
+          <Link to='/saved-movies' className={savedMoviesLinkClassNames} onClick={()=>{setIsMenuOpen(false)}}>
             Сохранённые фильмы
           </Link>
         </div>
-        <Link to='/profile' className={profileLinkClassNames}>
+        <Link to='/profile' className={profileLinkClassNames} onClick={()=>{setIsMenuOpen(false)}}>
           Аккаунт
         </Link>
       </nav>

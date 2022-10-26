@@ -1,9 +1,8 @@
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import { VALIDATION } from '../../utils/constants';
 import SignWithForm from "../SignWithForm/SignWithForm";
-import Preloader from '../Preloader/Preloader';
 
-const Register = ({ handleRegister, error, isLoading }) => {
+const Register = ({ handleRegister, error }) => {
   const {
     values,
     handleChange,
@@ -21,10 +20,6 @@ const Register = ({ handleRegister, error, isLoading }) => {
   };
 
   return (
-    isLoading
-    ?
-    <Preloader />
-    :
     <SignWithForm
       buttonText='Зарегистрироваться'
       formName='register'
