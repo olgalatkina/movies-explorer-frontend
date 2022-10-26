@@ -10,7 +10,6 @@ const MoviesCard = ({ movie, saveStatus }) => {
   const { nameRU, trailerLink, thumbnail, duration } = movie;
   const { pathname } = useLocation();
   const { savedMovies, setSavedMovies } = useContext(CurrentUserContext);
-
   const [isSaved, setIsSaved] = useState(false);
   const [mainApiId, setMainApiId] = useState('');
 

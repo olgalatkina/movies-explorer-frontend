@@ -37,7 +37,7 @@ const App = () => {
       Promise.all([MainApi.getUserInfo(), MainApi.getSavedMovies(), MoviesApi.getMovies()])
         .then(([me, savedMovies, allMovies]) => {
           setCurrentUser(me);
-          setSavedMovies(savedMovies.filter((movie) => movie.owner === currentUser.id));
+          setSavedMovies(savedMovies);
           const normalizedMovies = normalizeMovies(allMovies);
           localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
         })
@@ -133,7 +133,7 @@ const App = () => {
   const signOut = () => {
     localStorage.clear();
     setLoggedIn(false);
-    setSavedMovies([]);
+    setCurrentUser({});
     navigate('/');
   }
 

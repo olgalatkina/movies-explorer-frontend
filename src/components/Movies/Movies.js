@@ -12,7 +12,6 @@ const Movies = () => {
   const [isShortMovies, setIsShortMovies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isNothingFound, setIsNothingFound] = useState(false);
-  // надо добавить вывод строки
 
   const storageAllMovies = JSON.parse(localStorage.getItem('allMovies')) || [];
 
