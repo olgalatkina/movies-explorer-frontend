@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import './SignWithForm.css';
 import logo from '../../images/logo.svg';
 import cn from 'classnames';
+import Preloader from "../Preloader/Preloader";
 
 const SignWithForm = (props) => {
   const {
@@ -17,7 +18,7 @@ const SignWithForm = (props) => {
   } = props;
 
   const submitButtonClassNames = cn('form__submit-btn login__btn', {
-    'form__submit-btn_disabled': !isValid,
+    'form__submit-btn_disabled': !isValid || isLoading,
   })
 
   return (
@@ -35,6 +36,7 @@ const SignWithForm = (props) => {
         onSubmit={onSubmit}
       >
         {children}
+        {isLoading ? <Preloader /> : ''}
         <button
           type='submit'
           className={submitButtonClassNames}

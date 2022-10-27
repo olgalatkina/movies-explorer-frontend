@@ -33,6 +33,26 @@ const App = () => {
 
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     MainApi.setToken();
+  //     MainApi.getUserInfo()
+  //       .then((me) => {
+  //         setCurrentUser(me);
+  //       })
+  //       .catch(async (err) => {
+  //         const { message } = await err.json();
+  //         setTooltipSettings({
+  //           message,
+  //           isSuccess: false,
+  //         });
+  //         setInfoTooltipPopupOpen(true);
+  //         setError(AppMessage.SAVED_ERROR); // ??
+  //       })
+  //       .finally(() => {})
+  //   }
+  // }, [loggedIn]);
+
   useEffect(() => {
     if (loggedIn) {
       MainApi.setToken();
@@ -62,7 +82,7 @@ const App = () => {
           const normalizedMovies = normalizeMovies(allMovies);
           localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
         })
-        .catch(async (err) => {
+        .catch((err) => {
           console.log('err', err)
           setTooltipSettings({
             message: AppMessage.ERROR,
@@ -206,22 +226,6 @@ const App = () => {
               <Register handleRegister={handleRegister} isLoading={isLoading} />}
           />
           <Route
-            exact path='/'
-            element={
-              <>
-                <Header
-                  loggedIn={loggedIn}
-                  isMenuOpen={isMenuOpen}
-                  setIsMenuOpen={setIsMenuOpen}
-                  handleOverlayClick={handleOverlayClick}
-                  onClose={closeAllPopups}
-                />
-                <Main />
-                <Footer />
-              </>
-            }
-          />
-          <Route
             path='/movies'
             element={
               <ProtectedRoute loggedIn={loggedIn} >
@@ -263,6 +267,21 @@ const App = () => {
                 />
                 <Profile signOut={signOut} handleUpdateUser={handleUpdateUser} isLoading={isLoading} />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            exact path='/'
+            element={
+              <>
+                <Header
+                  loggedIn={loggedIn}
+                  isMenuOpen={isMenuOpen}
+                  setIsMenuOpen={setIsMenuOpen}
+                  handleOverlayClick={handleOverlayClick}
+                />
+                <Main />
+                <Footer />
+              </>
             }
           />
           <Route

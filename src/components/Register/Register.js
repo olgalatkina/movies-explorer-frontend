@@ -2,7 +2,7 @@ import useFormWithValidation from '../../hooks/useFormWithValidation';
 import { VALIDATION } from '../../utils/constants';
 import SignWithForm from "../SignWithForm/SignWithForm";
 
-const Register = ({ handleRegister, error }) => {
+const Register = ({ handleRegister, isLoading }) => {
   const {
     values,
     handleChange,
@@ -26,7 +26,7 @@ const Register = ({ handleRegister, error }) => {
       question='Уже зарегистрированы?'
       linkText='Войти'
       link='signin'
-      error={error}
+      isLoading={isLoading}
       onSubmit={handleSubmit}
       isValid={isValid}
     >

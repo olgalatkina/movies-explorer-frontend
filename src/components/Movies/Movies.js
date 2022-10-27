@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { SearchMessage } from '../../utils/constants';
-import { filterMovies } from '../../utils/utils';
+import { useState, useEffect, useContext } from 'react';
+import MoviesApi from '../../utils/MoviesApi';
+import { AppMessage, SearchMessage } from '../../utils/constants';
+import { filterMovies, normalizeMovies } from '../../utils/utils';
 import './Movies.css';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -12,7 +13,6 @@ const Movies = () => {
   const [isShortMovies, setIsShortMovies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isNothingFound, setIsNothingFound] = useState(false);
-
   const storageAllMovies = JSON.parse(localStorage.getItem('storageAllMovies')) || [];
 
   useEffect(() => {
@@ -29,6 +29,7 @@ const Movies = () => {
   }, []);
 
   const getFilteredMovies = (keyWord, isShortMovies) => {
+    // где-то тут по условию, что storageAllMovies пустой надо один раз загрузить все фильмы
     return new Promise((resolve) => {
       const filteredMovies = keyWord
         ? filterMovies(storageAllMovies, keyWord, isShortMovies)
@@ -63,9 +64,7 @@ const Movies = () => {
       .finally(() => setIsLoading(false))
   };
 
-  const setErrorMessage = () => {
-
-  }
+  const setErrorMessage = (text) => {}
 
   const renderMoviesSection = () => {
     if (!keyWord) {
