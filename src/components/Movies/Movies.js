@@ -13,7 +13,7 @@ const Movies = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isNothingFound, setIsNothingFound] = useState(false);
 
-  const storageAllMovies = JSON.parse(localStorage.getItem('allMovies')) || [];
+  const storageAllMovies = JSON.parse(localStorage.getItem('storageAllMovies')) || [];
 
   useEffect(() => {
     const storageSearchResult = JSON.parse(localStorage.getItem('storageSearchResult')) || [];
@@ -49,7 +49,7 @@ const Movies = () => {
     localStorage.setItem('storageKeyWord', keyWord);
     getFilteredMovies(keyWord, isShortMovies)
       .then((movies) => handleSetMovies(movies))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('handleSubmitSearch: ', err))
       .finally(() => setIsLoading(false))
   };
 
@@ -59,15 +59,24 @@ const Movies = () => {
     localStorage.setItem('storageIsShort', isChecked);
     getFilteredMovies(keyWord, isChecked)
       .then((movies) => handleSetMovies(movies))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log('handleChangeCheckbox: ', err))
       .finally(() => setIsLoading(false))
   };
 
-  const renderMovies = () => {
+  const setErrorMessage = () => {
+
+  }
+
+  const renderMoviesSection = () => {
+    if (!keyWord) {
+      return <p className='cards__search-message'>{SearchMessage.EMPTY}</p>;
+    }
     if (isNothingFound) {
       return <p className='cards__search-message'>{SearchMessage.NOT_FOUND}</p>;
     }
-    return <MoviesCardList movies={searchedMovies} />
+    return (
+      <MoviesCardList movies={searchedMovies} />
+    )
   };
 
   return (
@@ -75,8 +84,9 @@ const Movies = () => {
       <SearchForm
         handleSubmitSearch={handleSubmitSearch}
         handleChangeCheckbox={handleChangeCheckbox}
+        setErrorMessage={setErrorMessage}
       />
-      {isLoading ? <Preloader /> : renderMovies()}
+      {isLoading ? <Preloader /> : renderMoviesSection()}
     </main>
   )
 };

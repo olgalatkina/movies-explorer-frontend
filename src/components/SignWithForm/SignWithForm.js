@@ -13,6 +13,7 @@ const SignWithForm = (props) => {
     link,
     onSubmit,
     isValid,
+    isLoading,
   } = props;
 
   const submitButtonClassNames = cn('form__submit-btn login__btn', {
@@ -31,15 +32,13 @@ const SignWithForm = (props) => {
       <form
         className='form'
         name={`form-${formName}`}
-        action=''
-        method=''
         onSubmit={onSubmit}
       >
         {children}
         <button
           type='submit'
           className={submitButtonClassNames}
-          disabled={!isValid}
+          disabled={!isValid || isLoading}
         >
           {buttonText}
         </button>

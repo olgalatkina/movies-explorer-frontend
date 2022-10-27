@@ -8,13 +8,25 @@ export const HTTP_REGEX = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.
 export const SearchMessage = {
   EMPTY: 'Нужно ввести ключевое слово',
   NOT_FOUND: 'Ничего не найдено',
-  NOT_AVAILABLE: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.'
+  NOTHING: 'У вас нет сохранённых фильмов',
 }
 
 export const AppMessage = {
-  SUCCESS: 'Вы успешно зарегистрировались!',
+  SUCCESS: 'Всё прошло успешно!',
+  REGISTER_SUCCESS: 'Вы успешно зарегистрировались!',
+  UPDATE_SUCCESS: 'Ваши данные успешно изменены',
+  ERROR: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
+  SAVED_ERROR: 'Во время загрузки сохранённых фильмов произошла ошибка. Подождите немного и попробуйте обновить страницу.',
   BAD_REQUEST: 'Что-то пошло не так.',
 }
+
+export const CodeError = {
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
+  ALREADY_EXISTS: 409, // ConflictError
+  SERVER_ERROR: 500,
+};
 
 export const VALIDATION = {
   username: {

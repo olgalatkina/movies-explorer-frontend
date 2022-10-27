@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
-import { AppMessage } from '../../utils/constants';
+import {AppMessage, SearchMessage} from '../../utils/constants';
 import { normalizeMovies } from '../../utils/utils';
 import './App.css';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
@@ -22,7 +22,7 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); // AppMessage
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +41,15 @@ const App = () => {
           setCurrentUser(me);
           setSavedMovies(apiSavedMovies.filter((film) => film.owner === me._id));
         })
-        .catch((err) => console.log(err))
+        .catch(async (err) => {
+          const { message } = await err.json();
+          setTooltipSettings({
+            message,
+            isSuccess: false,
+          });
+          setInfoTooltipPopupOpen(true);
+          setError(AppMessage.SAVED_ERROR); // ??
+        })
         .finally(() => {})
     }
   }, [loggedIn]);
@@ -52,9 +60,17 @@ const App = () => {
       MoviesApi.getMovies()
         .then((allMovies) => {
           const normalizedMovies = normalizeMovies(allMovies);
-          localStorage.setItem('allMovies', JSON.stringify(normalizedMovies));
+          localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
         })
-        .catch((err) => console.log(err))
+        .catch(async (err) => {
+          console.log('err', err)
+          setTooltipSettings({
+            message: AppMessage.ERROR,
+            isSuccess: false,
+          });
+          setInfoTooltipPopupOpen(true);
+          setError(AppMessage.ERROR);
+        })
         .finally(() => {})
     }
   }, [loggedIn]);
@@ -74,8 +90,6 @@ const App = () => {
     }
   }, [navigate]);
 
-  const handleInfoTooltip = () => setInfoTooltipPopupOpen(true);
-
   const closeAllPopups = () => {
     setInfoTooltipPopupOpen(false);
     setIsMenuOpen(false);
@@ -88,11 +102,16 @@ const App = () => {
   };
 
   const handleUpdateUser = (data) => {
+    setIsLoading(true);
     MainApi
       .changeUserInfo(data)
       .then((newData) => {
         setCurrentUser(newData);
-        navigate('/movies');
+        setTooltipSettings({
+          message: AppMessage.UPDATE_SUCCESS,
+          isSuccess: true,
+        });
+        setInfoTooltipPopupOpen(true);
       })
       .catch(async (err) => {
         const { message } = await err.json();
@@ -100,11 +119,11 @@ const App = () => {
           message,
           isSuccess: false,
         });
-        handleInfoTooltip();
-        setError(message);
+        setInfoTooltipPopupOpen(true);
+        setError(AppMessage.BAD_REQUEST);
       })
       .finally(() => {
-        // closeAllPopups();
+        setIsLoading(false);
       });
   };
 
@@ -115,7 +134,11 @@ const App = () => {
       .then((res) => {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
-        setError('');
+        setTooltipSettings({
+          message: AppMessage.SUCCESS,
+          isSuccess: true,
+        });
+        setInfoTooltipPopupOpen(true);
       })
       .catch(async (err) => {
         const { message } = await err.json();
@@ -123,11 +146,9 @@ const App = () => {
           message,
           isSuccess: false,
         });
-        handleInfoTooltip();
-        setError(message);
+        setInfoTooltipPopupOpen(true);
       })
       .finally(() => {
-        // closeAllPopups();
         setIsLoading(false);
       });
   }
@@ -145,11 +166,9 @@ const App = () => {
           message,
           isSuccess: false,
         });
-        handleInfoTooltip();
-        setError(message);
+        setInfoTooltipPopupOpen(true)
       })
       .finally(() => {
-        // closeAllPopups();
         setIsLoading(false);
       });
   }
@@ -158,6 +177,10 @@ const App = () => {
     localStorage.clear();
     setLoggedIn(false);
     setCurrentUser({});
+    setSavedMovies([]);
+    setIsLoading(false);
+    closeAllPopups();
+    setError('');
     navigate('/');
   }
 
@@ -171,7 +194,7 @@ const App = () => {
               loggedIn ?
               <Navigate to='/movies' />
               :
-              <Login handleLogin={handleLogin} error={error} />
+              <Login handleLogin={handleLogin} isLoading={isLoading} />
             }
           />
           <Route
@@ -180,7 +203,7 @@ const App = () => {
               loggedIn ?
               <Navigate to='/movies' />
               :
-              <Register handleRegister={handleRegister} error={error} />}
+              <Register handleRegister={handleRegister} isLoading={isLoading} />}
           />
           <Route
             exact path='/'

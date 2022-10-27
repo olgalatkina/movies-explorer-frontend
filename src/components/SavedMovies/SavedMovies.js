@@ -3,18 +3,19 @@ import CurrentUserContext from '../../contexts/CurrentUserContext';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import { filterMovies } from '../../utils/utils';
+import { SearchMessage } from '../../utils/constants';
 
 const SavedMovies = () => {
   const { savedMovies } = useContext(CurrentUserContext);
   const [movies, setMovies] = useState([]);
-  const [searchResult, setSearchResult] = useState({
+  const [searchParams, setSearchParams] = useState({
     keyWord: '',
     isShort: false,
   });
 
   useEffect(() => {
     setMovies(savedMovies);
-    setFilteredMovies(searchResult.keyWord, searchResult.isShort)
+    setFilteredMovies(searchParams.keyWord, searchParams.isShort)
   }, [savedMovies]);
 
   const setFilteredMovies = (keyWord, isShort) => {
@@ -23,19 +24,31 @@ const SavedMovies = () => {
   };
 
   const handleSubmitSearch = (keyWord) => {
-    setSearchResult({...searchResult, keyWord: keyWord});
-    setFilteredMovies(searchResult.keyWord, searchResult.isShort);
+    setSearchParams({...searchParams, keyWord: keyWord});
+    setFilteredMovies(searchParams.keyWord, searchParams.isShort);
   };
 
   const handleChangeCheckbox = (isChecked) => {
-    setSearchResult({...searchResult, isShort: isChecked});
-    setFilteredMovies(searchResult.keyWord, isChecked);
+    setSearchParams({...searchParams, isShort: isChecked});
+    setFilteredMovies(searchParams.keyWord, isChecked);
+  };
+
+  const renderMoviesSection = () => {
+    if (!movies.length && !searchParams.keyWord) {
+      return <p className='cards__search-message'>{SearchMessage.NOTHING}</p>;
+    }
+    if (!movies.length) {
+      return <p className='cards__search-message'>{SearchMessage.NOT_FOUND}</p>;
+    }
+    return (
+      <MoviesCardList movies={movies} />
+    )
   };
 
   return (
     <main>
       <SearchForm handleSubmitSearch={handleSubmitSearch} handleChangeCheckbox={handleChangeCheckbox} />
-      <MoviesCardList movies={movies} />
+      {renderMoviesSection()}
     </main>
   )
 };

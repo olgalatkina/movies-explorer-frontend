@@ -4,13 +4,15 @@ import useFormWithValidation from '../../hooks/useFormWithValidation';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox }) => {
+const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, setErrorMessage }) => {
   const { pathname } = useLocation();
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    if (isValid) handleSubmitSearch(values.keyWord);
-  };
+  const {
+    values,
+    setValues,
+    handleChange,
+    isValid,
+    setIsValid,
+  } = useFormWithValidation();
 
   useEffect(() => {
     if (pathname === '/movies') {
@@ -22,13 +24,11 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox }) => {
     }
   }, [pathname]);
 
-  const {
-    values,
-    setValues,
-    handleChange,
-    isValid,
-    setIsValid,
-  } = useFormWithValidation();
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    // if (isValid) handleSubmitSearch(values.keyWord);
+    isValid ? handleSubmitSearch(values.keyWord) : setErrorMessage();
+  };
 
   return (
     <section className='search'>
@@ -36,8 +36,6 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox }) => {
         <form
           className='search__form'
           name='form-search'
-          action=''
-          method=''
           onSubmit={handleSubmit}
           noValidate
         >
@@ -49,7 +47,7 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox }) => {
             placeholder='Фильм'
             value={values.keyWord || ''}
             required
-            minLength='2'
+            minLength='1'
             maxLength='30'
             onChange={handleChange}
           />
