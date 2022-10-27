@@ -48,6 +48,8 @@
 }
 
 .profile__text_weight_smaller {
+  flex-grow: 1;
+  max-width: 85%;
   font-weight: 400;
 }
 
@@ -89,6 +91,32 @@
   opacity: 0.8;
 }
 
+.profile__submit-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: var(--white);
+  background: var(--secondary);
+  border: none;
+  border-radius: 3px;
+  transition: opacity .3s linear;
+  cursor: pointer;
+}
+
+.profile__submit-btn:hover {
+  opacity: 0.8;
+}
+
+.profile__submit-btn:disabled {
+  color: var(--grey-light-text);
+  background: var(--grey-dark);
+  cursor: auto;
+}
+
 .profile__error {
   display: flex;
   align-items: flex-end;
@@ -100,7 +128,7 @@
   line-height: 13px;
   text-align: center;
   color: var(--accent);
-  opacity: 0;
+  opacity: 1;
 }
 
 .profile__error_visible {

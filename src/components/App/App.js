@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
-import {AppMessage, SearchMessage} from '../../utils/constants';
+import { AppMessage } from '../../utils/constants';
 import { normalizeMovies } from '../../utils/utils';
 import './App.css';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
@@ -119,32 +119,6 @@ const App = () => {
     if (evt.target === evt.currentTarget) {
       closeAllPopups();
     }
-  };
-
-  const handleUpdateUser = (data) => {
-    setIsLoading(true);
-    MainApi
-      .changeUserInfo(data)
-      .then((newData) => {
-        setCurrentUser(newData);
-        setTooltipSettings({
-          message: AppMessage.UPDATE_SUCCESS,
-          isSuccess: true,
-        });
-        setInfoTooltipPopupOpen(true);
-      })
-      .catch(async (err) => {
-        const { message } = await err.json();
-        setTooltipSettings({
-          message,
-          isSuccess: false,
-        });
-        setInfoTooltipPopupOpen(true);
-        setError(AppMessage.BAD_REQUEST);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
   };
 
   const handleLogin = (email, password) => {
@@ -265,7 +239,11 @@ const App = () => {
                   setIsMenuOpen={setIsMenuOpen}
                   handleOverlayClick={handleOverlayClick}
                 />
-                <Profile signOut={signOut} handleUpdateUser={handleUpdateUser} isLoading={isLoading} />
+                <Profile
+                  signOut={signOut}
+                  setTooltipSettings={setTooltipSettings}
+                  setInfoTooltipPopupOpen={setInfoTooltipPopupOpen}
+                />
               </ProtectedRoute>
             }
           />
