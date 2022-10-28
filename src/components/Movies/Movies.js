@@ -39,11 +39,12 @@ const Movies = () => {
     //       return keyWord ? filterMovies(normalizedMovies, keyWord, isShortMovies) : [];
     //     })
     //     .catch((err) => {
-    //       console.log('err from catch', err)
+    //       console.log('err from catch', err);
     //       showErrorMessage();
     //     })
     //     .finally(() => {
-    //       console.log('from finally')
+    //       console.log('from finally');
+    //       return [];
     //     })
     // } else {
       return new Promise((resolve) => {

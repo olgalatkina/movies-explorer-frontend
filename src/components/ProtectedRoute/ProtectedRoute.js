@@ -7,7 +7,7 @@ const ProtectedRoute = ({ loggedIn, children }) => {
     return (
       <>
         <Preloader />
-        <Link to='/' className='home-link'>Home</Link>
+        <Link to='/' className='home-link'>На главную</Link>
       </>
     )
   }
