@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import MoviesApi from '../../utils/MoviesApi';
 import { AppMessage, SearchMessage } from '../../utils/constants';
 import { filterMovies, normalizeMovies } from '../../utils/utils';
@@ -30,12 +30,30 @@ const Movies = () => {
 
   const getFilteredMovies = (keyWord, isShortMovies) => {
     // где-то тут по условию, что storageAllMovies пустой надо один раз загрузить все фильмы
-    return new Promise((resolve) => {
-      const filteredMovies = keyWord
-        ? filterMovies(storageAllMovies, keyWord, isShortMovies)
-        : [];
-      resolve(filteredMovies);
-    })
+    if (!storageAllMovies.length) {
+      MoviesApi.getMovies()
+        .then((allMovies) => {
+          console.log('from movies api')
+          const normalizedMovies = normalizeMovies(allMovies);
+          localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
+          return keyWord ? filterMovies(normalizedMovies, keyWord, isShortMovies) : [];
+        })
+        .catch((err) => {
+          console.log('err from catch', err)
+        })
+        .finally(() => {
+          console.log('from finally')
+          return [];
+        })
+    } else {
+      return new Promise((resolve) => {
+        console.log('from local storage')
+        const filteredMovies = keyWord
+          ? filterMovies(storageAllMovies, keyWord, isShortMovies)
+          : [];
+        resolve(filteredMovies);
+      })
+    }
   };
 
   const handleSetMovies = (movies) => {

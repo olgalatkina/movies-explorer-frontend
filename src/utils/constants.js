@@ -9,6 +9,7 @@ export const SearchMessage = {
   EMPTY: 'Нужно ввести ключевое слово',
   NOT_FOUND: 'Ничего не найдено',
   NOTHING: 'У вас нет сохранённых фильмов',
+  SEARCH_ERROR: 'Во время загрузки сохранённых фильмов произошла ошибка. Подождите немного и попробуйте обновить страницу.',
 }
 
 export const AppMessage = {
@@ -16,7 +17,6 @@ export const AppMessage = {
   REGISTER_SUCCESS: 'Вы успешно зарегистрировались!',
   UPDATE_SUCCESS: 'Ваши данные успешно изменены',
   ERROR: 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз.',
-  SAVED_ERROR: 'Во время загрузки сохранённых фильмов произошла ошибка. Подождите немного и попробуйте обновить страницу.',
   BAD_REQUEST: 'Что-то пошло не так.',
 }
 
@@ -24,7 +24,7 @@ export const CodeError = {
   BAD_REQUEST: 400,
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
-  ALREADY_EXISTS: 409, // ConflictError
+  ALREADY_EXISTS: 409,
   SERVER_ERROR: 500,
 };
 

@@ -68,32 +68,32 @@ const App = () => {
             isSuccess: false,
           });
           setInfoTooltipPopupOpen(true);
-          setError(AppMessage.SAVED_ERROR); // ??
+          setError(AppMessage.ERROR); // ??
         })
         .finally(() => {})
     }
   }, [loggedIn]);
 
-  useEffect(() => {
-    if (loggedIn) {
-      MainApi.setToken();
-      MoviesApi.getMovies()
-        .then((allMovies) => {
-          const normalizedMovies = normalizeMovies(allMovies);
-          localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
-        })
-        .catch((err) => {
-          console.log('err', err)
-          setTooltipSettings({
-            message: AppMessage.ERROR,
-            isSuccess: false,
-          });
-          setInfoTooltipPopupOpen(true);
-          setError(AppMessage.ERROR);
-        })
-        .finally(() => {})
-    }
-  }, [loggedIn]);
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     MainApi.setToken();
+  //     MoviesApi.getMovies()
+  //       .then((allMovies) => {
+  //         const normalizedMovies = normalizeMovies(allMovies);
+  //         localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
+  //       })
+  //       .catch((err) => {
+  //         console.log('err', err)
+  //         setTooltipSettings({
+  //           message: AppMessage.ERROR,
+  //           isSuccess: false,
+  //         });
+  //         setInfoTooltipPopupOpen(true);
+  //         setError(AppMessage.ERROR);
+  //       })
+  //       .finally(() => {})
+  //   }
+  // }, [loggedIn]);
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
