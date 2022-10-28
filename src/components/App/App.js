@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
 import MoviesApi from '../../utils/MoviesApi';
 import { AppMessage } from '../../utils/constants';
@@ -20,9 +20,9 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState({});
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(null);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [error, setError] = useState(''); // AppMessage
+  const [error, setError] = useState('');
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,26 +32,6 @@ const App = () => {
   });
 
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     MainApi.setToken();
-  //     MainApi.getUserInfo()
-  //       .then((me) => {
-  //         setCurrentUser(me);
-  //       })
-  //       .catch(async (err) => {
-  //         const { message } = await err.json();
-  //         setTooltipSettings({
-  //           message,
-  //           isSuccess: false,
-  //         });
-  //         setInfoTooltipPopupOpen(true);
-  //         setError(AppMessage.SAVED_ERROR); // ??
-  //       })
-  //       .finally(() => {})
-  //   }
-  // }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -74,26 +54,26 @@ const App = () => {
     }
   }, [loggedIn]);
 
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     MainApi.setToken();
-  //     MoviesApi.getMovies()
-  //       .then((allMovies) => {
-  //         const normalizedMovies = normalizeMovies(allMovies);
-  //         localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
-  //       })
-  //       .catch((err) => {
-  //         console.log('err', err)
-  //         setTooltipSettings({
-  //           message: AppMessage.ERROR,
-  //           isSuccess: false,
-  //         });
-  //         setInfoTooltipPopupOpen(true);
-  //         setError(AppMessage.ERROR);
-  //       })
-  //       .finally(() => {})
-  //   }
-  // }, [loggedIn]);
+  useEffect(() => {
+    if (loggedIn) {
+      MainApi.setToken();
+      MoviesApi.getMovies()
+        .then((allMovies) => {
+          const normalizedMovies = normalizeMovies(allMovies);
+          localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
+        })
+        .catch((err) => {
+          console.log('err', err)
+          setTooltipSettings({
+            message: AppMessage.ERROR,
+            isSuccess: false,
+          });
+          setInfoTooltipPopupOpen(true);
+          setError(AppMessage.ERROR);
+        })
+        .finally(() => {})
+    }
+  }, [loggedIn]);
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');

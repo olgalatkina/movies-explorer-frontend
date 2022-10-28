@@ -4,7 +4,7 @@ import useFormWithValidation from '../../hooks/useFormWithValidation';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
-const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, setErrorMessage }) => {
+const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showErrorMessage }) => {
   const { pathname } = useLocation();
   const {
     values,
@@ -26,8 +26,7 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, setErrorMessage 
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // if (isValid) handleSubmitSearch(values.keyWord);
-    isValid ? handleSubmitSearch(values.keyWord) : setErrorMessage();
+    isValid ? handleSubmitSearch(values.keyWord) : showErrorMessage();
   };
 
   return (

@@ -1,6 +1,18 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import {Navigate, Link} from 'react-router-dom';
+import Preloader from '../Preloader/Preloader';
 
-const ProtectedRoute = ({ loggedIn, children }) =>  loggedIn ? children : <Navigate to='/' />;
+const ProtectedRoute = ({ loggedIn, children }) => {
+  if (loggedIn === null) {
+    return (
+      <>
+        <Preloader />
+        <Link to='/' className='home-link'>Home</Link>
+      </>
+    )
+  }
+
+  return loggedIn ? children : <Navigate to='/' />
+}
 
 export default ProtectedRoute;

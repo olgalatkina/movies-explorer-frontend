@@ -13,15 +13,15 @@ const SavedMovies = () => {
     isShort: false,
   });
 
-  useEffect(() => {
-    setMovies(savedMovies);
-    setFilteredMovies(searchParams.keyWord, searchParams.isShort)
-  }, [savedMovies]);
-
   const setFilteredMovies = (keyWord, isShort) => {
     const filteredMovies = filterMovies(savedMovies, keyWord, isShort);
     setMovies(filteredMovies);
   };
+
+  useEffect(() => {
+    setMovies(savedMovies);
+    setFilteredMovies(searchParams.keyWord, searchParams.isShort)
+  }, [savedMovies]);
 
   const handleSubmitSearch = (keyWord) => {
     setSearchParams({...searchParams, keyWord: keyWord});
