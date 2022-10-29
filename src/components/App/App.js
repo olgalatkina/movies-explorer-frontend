@@ -22,7 +22,6 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(null);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [error, setError] = useState('');
   const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +47,6 @@ const App = () => {
             isSuccess: false,
           });
           setInfoTooltipPopupOpen(true);
-          setError(AppMessage.ERROR); // ??
         })
         .finally(() => {})
     }
@@ -69,7 +67,6 @@ const App = () => {
             isSuccess: false,
           });
           setInfoTooltipPopupOpen(true);
-          setError(AppMessage.ERROR);
         })
         .finally(() => {})
     }
@@ -154,7 +151,6 @@ const App = () => {
     setSavedMovies([]);
     setIsLoading(false);
     closeAllPopups();
-    setError('');
     navigate('/');
   }
 

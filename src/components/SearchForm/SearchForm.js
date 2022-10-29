@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
-import {SearchMessage} from "../../utils/constants";
+import {SearchMessage} from '../../utils/constants';
 
 const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showError }) => {
   const { pathname } = useLocation();

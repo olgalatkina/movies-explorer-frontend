@@ -7,17 +7,12 @@ import { SearchMessage } from '../../utils/constants';
 
 const SavedMovies = () => {
   const { savedMovies } = useContext(CurrentUserContext);
-  const [movies, setMovies] = useState(savedMovies);
+  const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useState({
     keyWord: '',
     isShort: false,
   });
   const [errorMessage, setErrorMessage] = useState('');
-
-  useEffect(() => {
-    setMovies(savedMovies);
-    getFilteredMovies(searchParams.keyWord, searchParams.isShort);
-  }, [savedMovies]);
 
   const getFilteredMovies = (keyWord, isShort) => {
     const filteredMovies = filterMovies(savedMovies, keyWord, isShort);
@@ -26,9 +21,15 @@ const SavedMovies = () => {
     setMovies(filteredMovies);
   };
 
-  const handleSubmitSearch = (keyWord) => {
-    setSearchParams({...searchParams, keyWord: keyWord});
+  useEffect(() => {
+    setMovies(savedMovies);
     getFilteredMovies(searchParams.keyWord, searchParams.isShort);
+    !savedMovies.length ? setErrorMessage(SearchMessage.NOT_SAVED) : setErrorMessage('');
+  }, [savedMovies]);
+
+  const handleSubmitSearch = (word) => {
+    setSearchParams({...searchParams, keyWord: word});
+    getFilteredMovies(word, searchParams.isShort);
   };
 
   const handleChangeCheckbox = (isChecked) => {
