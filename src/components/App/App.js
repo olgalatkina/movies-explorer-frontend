@@ -87,7 +87,7 @@ const App = () => {
           console.log(err);
           signOut();
         });
-    }
+    } else setLoggedIn(false);
   }, [navigate]);
 
   const closeAllPopups = () => {

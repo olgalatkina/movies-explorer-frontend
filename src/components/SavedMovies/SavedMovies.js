@@ -35,7 +35,7 @@ const SavedMovies = () => {
 
   const renderMoviesSection = () => {
     if (!movies.length && !searchParams.keyWord) {
-      return <p className='cards__search-message'>{SearchMessage.NOTHING}</p>;
+      return <p className='cards__search-message'>{SearchMessage.NOT_SAVED}</p>;
     }
     if (!movies.length) {
       return <p className='cards__search-message'>{SearchMessage.NOT_FOUND}</p>;
@@ -47,7 +47,10 @@ const SavedMovies = () => {
 
   return (
     <main>
-      <SearchForm handleSubmitSearch={handleSubmitSearch} handleChangeCheckbox={handleChangeCheckbox} />
+      <SearchForm
+        handleSubmitSearch={handleSubmitSearch}
+        handleChangeCheckbox={handleChangeCheckbox}
+      />
       {renderMoviesSection()}
     </main>
   )

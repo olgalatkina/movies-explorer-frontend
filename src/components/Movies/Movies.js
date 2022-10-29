@@ -30,31 +30,32 @@ const Movies = () => {
 
   const getFilteredMovies = (keyWord, isShortMovies) => {
     // где-то тут по условию, что storageAllMovies пустой надо один раз загрузить все фильмы
-    // if (!storageAllMovies.length) {
-    //   MoviesApi.getMovies()
-    //     .then((allMovies) => {
-    //       console.log('from movies api')
-    //       const normalizedMovies = normalizeMovies(allMovies);
-    //       localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
-    //       return keyWord ? filterMovies(normalizedMovies, keyWord, isShortMovies) : [];
-    //     })
-    //     .catch((err) => {
-    //       console.log('err from catch', err);
-    //       showErrorMessage();
-    //     })
-    //     .finally(() => {
-    //       console.log('from finally');
-    //       return [];
-    //     })
-    // } else {
+    if (!storageAllMovies.length) {
+      console.log('storageAllMovies first time');
+      MoviesApi.getMovies()
+        .then((allMovies) => {
+          console.log('from movies api')
+          const normalizedMovies = normalizeMovies(allMovies);
+          localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
+          return keyWord ? filterMovies(normalizedMovies, keyWord, isShortMovies) : [];
+        })
+        .catch((err) => {
+          console.log('err from catch', err);
+          // showErrorMessage(); // SEARCH_ERROR
+        })
+        .finally(() => {
+          console.log('from finally');
+          return [];
+        })
+    } else {
       return new Promise((resolve) => {
-        console.log('from local storage')
+        // console.log('storageAllMovies from local storage')
         const filteredMovies = keyWord
           ? filterMovies(storageAllMovies, keyWord, isShortMovies)
           : [];
         resolve(filteredMovies);
       })
-    // }
+    }
   };
 
   const handleSetMovies = (movies) => {
@@ -69,7 +70,7 @@ const Movies = () => {
     localStorage.setItem('storageKeyWord', keyWord);
     getFilteredMovies(keyWord, isShortMovies)
       .then((movies) => handleSetMovies(movies))
-      .catch((err) => console.log('handleSubmitSearch: ', err))
+      .catch((err) => console.log(err))
       .finally(() => setIsLoading(false))
   };
 
@@ -79,12 +80,12 @@ const Movies = () => {
     localStorage.setItem('storageIsShort', isChecked);
     getFilteredMovies(keyWord, isChecked)
       .then((movies) => handleSetMovies(movies))
-      .catch((err) => console.log('handleChangeCheckbox: ', err))
+      .catch((err) => console.log(err))
       .finally(() => setIsLoading(false))
   };
 
   const showErrorMessage = () => (
-    <p className='cards__search-message'>{SearchMessage.NOT_FOUND}</p>
+    alert(SearchMessage.SEARCH_ERROR)
   );
 
   const renderMoviesSection = () => {
