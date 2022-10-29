@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import MainApi from '../../utils/MainApi';
-import MoviesApi from '../../utils/MoviesApi';
 import { AppMessage } from '../../utils/constants';
-import { normalizeMovies } from '../../utils/utils';
 import './App.css';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
@@ -44,26 +42,6 @@ const App = () => {
           const { message } = await err.json();
           setTooltipSettings({
             message,
-            isSuccess: false,
-          });
-          setInfoTooltipPopupOpen(true);
-        })
-        .finally(() => {})
-    }
-  }, [loggedIn]);
-
-  useEffect(() => {
-    if (loggedIn) {
-      MainApi.setToken();
-      MoviesApi.getMovies()
-        .then((allMovies) => {
-          const normalizedMovies = normalizeMovies(allMovies);
-          localStorage.setItem('storageAllMovies', JSON.stringify(normalizedMovies));
-        })
-        .catch((err) => {
-          console.log('err', err)
-          setTooltipSettings({
-            message: AppMessage.ERROR,
             isSuccess: false,
           });
           setInfoTooltipPopupOpen(true);

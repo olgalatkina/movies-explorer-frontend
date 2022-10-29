@@ -11,17 +11,17 @@ const filterMovies = (movies, keyWord, isShort) => {
   const word = keyWord.toLowerCase().trim();
 
   const searchedMovies = movies
-  .filter((movie) => {
-    const ruName = movie.nameRU && movie.nameRU.toLowerCase().trim();
-    const enName = movie.nameEN && movie.nameEN.toLowerCase().trim();
-    return (ruName.match(word)) || (enName && enName.match(word));
-  });
+    .filter((movie) => {
+      const ruName = movie.nameRU && movie.nameRU.toLowerCase().trim();
+      const enName = movie.nameEN && movie.nameEN.toLowerCase().trim();
+      return (ruName.match(word)) || (enName && enName.match(word));
+    });
 
   if (isShort) {
     return searchedMovies.filter((movie) => movie.duration <= SHORT_FILM_DURATION);
-  } else {
-    return searchedMovies;
   }
+
+  return searchedMovies;
 };
 
 const normalizeMovies = (movies) => {
