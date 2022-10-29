@@ -7,38 +7,38 @@ import { SearchMessage } from '../../utils/constants';
 
 const SavedMovies = () => {
   const { savedMovies } = useContext(CurrentUserContext);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(savedMovies);
   const [searchParams, setSearchParams] = useState({
     keyWord: '',
     isShort: false,
   });
-
-  const setFilteredMovies = (keyWord, isShort) => {
-    const filteredMovies = filterMovies(savedMovies, keyWord, isShort);
-    setMovies(filteredMovies);
-  };
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     setMovies(savedMovies);
-    setFilteredMovies(searchParams.keyWord, searchParams.isShort)
+    getFilteredMovies(searchParams.keyWord, searchParams.isShort);
   }, [savedMovies]);
+
+  const getFilteredMovies = (keyWord, isShort) => {
+    const filteredMovies = filterMovies(savedMovies, keyWord, isShort);
+    filteredMovies.length === 0 ? setErrorMessage(SearchMessage.NOT_FOUND) : setErrorMessage('');
+    !savedMovies.length ? setErrorMessage(SearchMessage.NOT_SAVED) : setErrorMessage('');
+    setMovies(filteredMovies);
+  };
 
   const handleSubmitSearch = (keyWord) => {
     setSearchParams({...searchParams, keyWord: keyWord});
-    setFilteredMovies(searchParams.keyWord, searchParams.isShort);
+    getFilteredMovies(searchParams.keyWord, searchParams.isShort);
   };
 
   const handleChangeCheckbox = (isChecked) => {
     setSearchParams({...searchParams, isShort: isChecked});
-    setFilteredMovies(searchParams.keyWord, isChecked);
+    getFilteredMovies(searchParams.keyWord, isChecked);
   };
 
   const renderMoviesSection = () => {
-    if (!movies.length && !searchParams.keyWord) {
-      return <p className='cards__search-message'>{SearchMessage.NOT_SAVED}</p>;
-    }
-    if (!movies.length) {
-      return <p className='cards__search-message'>{SearchMessage.NOT_FOUND}</p>;
+    if (errorMessage.length) {
+      return <p className='cards__search-message'>{errorMessage}</p>;
     }
     return (
       <MoviesCardList movies={movies} />
@@ -50,6 +50,7 @@ const SavedMovies = () => {
       <SearchForm
         handleSubmitSearch={handleSubmitSearch}
         handleChangeCheckbox={handleChangeCheckbox}
+        showError={setErrorMessage}
       />
       {renderMoviesSection()}
     </main>

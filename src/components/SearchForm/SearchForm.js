@@ -3,8 +3,9 @@ import { useLocation } from 'react-router-dom';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
+import {SearchMessage} from "../../utils/constants";
 
-const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showErrorMessage }) => {
+const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showError }) => {
   const { pathname } = useLocation();
   const {
     values,
@@ -13,6 +14,11 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showErrorMessage
     isValid,
     setIsValid,
   } = useFormWithValidation();
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    isValid ? handleSubmitSearch(values.keyWord) : showError(SearchMessage.EMPTY);
+  };
 
   useEffect(() => {
     if (pathname === '/movies') {
@@ -23,11 +29,6 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showErrorMessage
       setValues({keyWord: ''});
     }
   }, [pathname]);
-
-  const handleSubmit = (evt) => {
-    evt.preventDefault();
-    isValid ? handleSubmitSearch(values.keyWord) : showErrorMessage();
-  };
 
   return (
     <section className='search'>

@@ -13,6 +13,7 @@
 
 .cards__search-message {
   margin: 0 auto;
+  min-height: 18px;
   font-weight: 500;
   font-size: 11px;
   line-height: 18px;

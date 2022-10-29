@@ -15,6 +15,8 @@ const Movies = () => {
   const [isNothingFound, setIsNothingFound] = useState(false);
   const storageAllMovies = JSON.parse(localStorage.getItem('storageAllMovies')) || [];
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   useEffect(() => {
     const storageSearchResult = JSON.parse(localStorage.getItem('storageSearchResult')) || [];
     const storageKeyWord = localStorage.getItem('storageKeyWord') || '';
@@ -41,7 +43,8 @@ const Movies = () => {
         })
         .catch((err) => {
           console.log('err from catch', err);
-          // showErrorMessage(); // SEARCH_ERROR
+
+          setErrorMessage(SearchMessage.SEARCH_ERROR);
         })
         .finally(() => {
           console.log('from finally');
@@ -49,7 +52,6 @@ const Movies = () => {
         })
     } else {
       return new Promise((resolve) => {
-        // console.log('storageAllMovies from local storage')
         const filteredMovies = keyWord
           ? filterMovies(storageAllMovies, keyWord, isShortMovies)
           : [];
@@ -62,6 +64,8 @@ const Movies = () => {
     movies.length === 0 ? setIsNothingFound(true) : setIsNothingFound(false);
     setSearchedMovies(movies);
     localStorage.setItem('storageSearchResult', JSON.stringify(movies));
+
+    movies.length === 0 ? setErrorMessage(SearchMessage.NOT_FOUND) : setErrorMessage('');
   };
 
   const handleSubmitSearch = (keyWord) => {
@@ -84,16 +88,9 @@ const Movies = () => {
       .finally(() => setIsLoading(false))
   };
 
-  const showErrorMessage = () => (
-    alert(SearchMessage.SEARCH_ERROR)
-  );
-
   const renderMoviesSection = () => {
-    if (!keyWord) {
-      return <p className='cards__search-message'>{SearchMessage.EMPTY}</p>;
-    }
-    if (isNothingFound) {
-      return <p className='cards__search-message'>{SearchMessage.NOT_FOUND}</p>;
+    if (errorMessage.length) {
+      return <p className='cards__search-message'>{errorMessage}</p>;
     }
     return (
       <MoviesCardList movies={searchedMovies} />
@@ -105,7 +102,7 @@ const Movies = () => {
       <SearchForm
         handleSubmitSearch={handleSubmitSearch}
         handleChangeCheckbox={handleChangeCheckbox}
-        showErrorMessage={showErrorMessage}
+        showError={setErrorMessage}
       />
       {isLoading ? <Preloader /> : renderMoviesSection()}
     </main>
