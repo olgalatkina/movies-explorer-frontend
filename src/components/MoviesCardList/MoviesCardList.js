@@ -9,11 +9,11 @@ const MoviesCardList = ({ movies }) => {
   const { pathname } = useLocation();
   const { savedMovies } = useContext(CurrentUserContext);
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const handleResizeWindow = () => setWindowWidth(window.innerWidth);
-
-  const [isMoreButton, setIsMoreButton] = useState(false);
   const [chunkLength, setChunkLength] = useState(0);
+  const [isMoreButton, setIsMoreButton] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const handleResizeWindow = () => setWindowWidth(window.innerWidth);
 
   useEffect(() => {
     window.addEventListener('resize', handleResizeWindow);
@@ -23,14 +23,12 @@ const MoviesCardList = ({ movies }) => {
   }, []);
 
   useEffect(() => {
-    if (windowWidth <= Breakpoint.MOBILE && movies.length >= Length.MOBILE) {
+    if (windowWidth <= Breakpoint.MOBILE) {
       setChunkLength(Length.MOBILE);
-    } else if (windowWidth <= Breakpoint.TABLET && movies.length >= Length.TABLET) {
+    } else if (windowWidth <= Breakpoint.TABLET) {
       setChunkLength(Length.TABLET);
-    } else if (windowWidth <= Breakpoint.DESKTOP && movies.length >= Length.DESKTOP) {
-      setChunkLength(Length.DESKTOP);
     } else {
-      setChunkLength(movies.length);
+      setChunkLength(Length.DESKTOP);
     }
   }, [windowWidth, movies.length]);
 
@@ -46,9 +44,8 @@ const MoviesCardList = ({ movies }) => {
     setChunkLength((current) => {
       if (windowWidth <= Breakpoint.TABLET) {
         return current + 2;
-      } else {
-        return current + 3;
       }
+      return current + 3;
     })
   };
 
