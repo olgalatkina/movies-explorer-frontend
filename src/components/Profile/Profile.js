@@ -6,13 +6,21 @@ import { VALIDATION, AppMessage } from '../../utils/constants';
 import './Profile.css';
 import Preloader from '../Preloader/Preloader';
 
+import {useLocation} from 'react-router-dom';
+
 const Profile = ({ signOut, setTooltipSettings, setInfoTooltipPopupOpen }) => {
-  const userContext = useContext(CurrentUserContext); // {currentUser, setCurrentUser, savedMovies, setSavedMovies}
+  const userContext = useContext(CurrentUserContext);
+  console.log('userContext', userContext); // {currentUser, setCurrentUser, savedMovies, setSavedMovies}
   const [userData, setUserData] = useState(userContext.currentUser);
   const initialValues = {
     username: userData.name,
     email: userData.email,
   };
+
+  const { pathname } = useLocation();
+  console.log('pathname', pathname); // '/profile'
+  console.log('initialValues', initialValues);
+
   const [currentError, setCurrentError]= useState('');
   const nameInputRef = useRef(false);
   const {
@@ -69,7 +77,9 @@ const Profile = ({ signOut, setTooltipSettings, setInfoTooltipPopupOpen }) => {
       .finally(() => setIsLoading(false))
   }
 
-  const isButtonActive = isValid && !isLoading;
+  const isButtonActive = isValid
+    && !isLoading
+    && (values.username !== initialValues.username || values.email !== initialValues.email);
 
   return (
     <section className='profile'>
