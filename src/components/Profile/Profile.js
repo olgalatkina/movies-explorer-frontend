@@ -1,4 +1,4 @@
-import { useState, useContext, useRef, useEffect } from 'react';
+import { useState, useContext, useRef } from 'react';
 import MainApi from '../../utils/MainApi';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
@@ -6,20 +6,14 @@ import { VALIDATION, AppMessage } from '../../utils/constants';
 import './Profile.css';
 import Preloader from '../Preloader/Preloader';
 
-import {useLocation} from 'react-router-dom';
-
 const Profile = ({ signOut, setTooltipSettings, setInfoTooltipPopupOpen }) => {
   const userContext = useContext(CurrentUserContext);
-  console.log('userContext', userContext); // {currentUser, setCurrentUser, savedMovies, setSavedMovies}
   const [userData, setUserData] = useState(userContext.currentUser);
+
   const initialValues = {
     username: userData.name,
     email: userData.email,
   };
-
-  const { pathname } = useLocation();
-  console.log('pathname', pathname); // '/profile'
-  console.log('initialValues', initialValues);
 
   const [currentError, setCurrentError]= useState('');
   const nameInputRef = useRef(false);

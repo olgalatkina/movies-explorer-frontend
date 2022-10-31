@@ -56,6 +56,7 @@ const App = () => {
       MainApi
         .checkToken(jwt)
         .then((res) => {
+          setCurrentUser(res);
           setLoggedIn(true);
         })
         .catch((err) => {
