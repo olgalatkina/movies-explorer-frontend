@@ -42,6 +42,7 @@ const Register = ({ handleRegister, isLoading }) => {
           value={values.username || ''}
           pattern={VALIDATION.username.pattern}
           onChange={handleChange}
+          disabled={isLoading}
         />
         <span className='form__error' id='email-error'>{errors.username}</span>
       </label>
@@ -58,6 +59,7 @@ const Register = ({ handleRegister, isLoading }) => {
           value={values.email || ''}
           pattern={VALIDATION.email.pattern}
           onChange={handleChange}
+          disabled={isLoading}
         />
         <span className='form__error' id='email-error'>{errors.email}</span>
       </label>
@@ -72,6 +74,7 @@ const Register = ({ handleRegister, isLoading }) => {
           required
           value={values.password || ''}
           onChange={handleChange}
+          disabled={isLoading}
         />
         <span className='form__error' id='password-error'>{errors.password}</span>
       </label>

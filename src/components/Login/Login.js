@@ -41,6 +41,7 @@ const Login = ({ handleLogin, isLoading }) => {
           value={values.email || ''}
           pattern={VALIDATION.email.pattern}
           onChange={handleChange}
+          disabled={isLoading}
         />
         <span className='form__error' id='email-error'>{errors.email}</span>
       </label>
@@ -55,6 +56,7 @@ const Login = ({ handleLogin, isLoading }) => {
           required
           value={values.password || ''}
           onChange={handleChange}
+          disabled={isLoading}
         />
         <span className='form__error' id='password-error'>{errors.password}</span>
       </label>
