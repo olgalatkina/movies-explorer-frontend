@@ -85,6 +85,7 @@ const Movies = () => {
         handleSubmitSearch={handleSubmitSearch}
         handleChangeCheckbox={handleChangeCheckbox}
         showError={setErrorMessage}
+        isLoading={isLoading}
       />
       {isLoading ? <Preloader /> : renderMoviesSection()}
     </main>

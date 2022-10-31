@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import cn from 'classnames';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import {SearchMessage} from '../../utils/constants';
 
-const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showError }) => {
+const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showError, isLoading }) => {
   const { pathname } = useLocation();
   const {
     values,
@@ -30,6 +31,10 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showError }) => 
     }
   }, [pathname]);
 
+  const submitButtonClassNames = cn('search__submit-btn', {
+    'search__submit-btn_disabled': isLoading,
+  })
+
   return (
     <section className='search'>
       <div className='search__content'>
@@ -50,8 +55,14 @@ const SearchForm = ({ handleSubmitSearch, handleChangeCheckbox, showError }) => 
             minLength='1'
             maxLength='30'
             onChange={handleChange}
+            disabled={isLoading}
           />
-          <button className='search__submit-btn' type='submit' aria-label='Поиск' />
+          <button
+            className={submitButtonClassNames}
+            type='submit'
+            aria-label='Поиск'
+            disabled={isLoading}
+          />
         </form>
         <FilterCheckbox handleCheckbox={handleChangeCheckbox}/>
       </div>

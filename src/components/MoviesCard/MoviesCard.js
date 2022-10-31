@@ -12,6 +12,7 @@ const MoviesCard = ({ movie, saveStatus }) => {
   const { savedMovies, setSavedMovies } = useContext(CurrentUserContext);
   const [isSaved, setIsSaved] = useState(false);
   const [mainApiId, setMainApiId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsSaved(saveStatus.isSaved);
@@ -19,15 +20,18 @@ const MoviesCard = ({ movie, saveStatus }) => {
   }, [saveStatus]);
 
   const handleSaveMovie = () => {
+    setIsLoading(true);
     MainApi.saveMovie(movie)
       .then((data) => {
         setSavedMovies([...savedMovies, data]);
         setIsSaved(true);
       })
       .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   };
 
   const handleDeleteMovie = () => {
+    setIsLoading(true);
     MainApi.deleteMovie(mainApiId)
       .then(() => {
         setSavedMovies(savedMovies.filter((data) => {
@@ -36,11 +40,13 @@ const MoviesCard = ({ movie, saveStatus }) => {
         setIsSaved(false);
       })
       .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   };
 
   const cardBtnClassNames = cn('card__button', {
     'card__button_saved': pathname === '/movies' && isSaved,
     'card__button_delete': pathname === '/saved-movies',
+    'card__button_disabled': isLoading,
   });
 
   return (
@@ -60,6 +66,7 @@ const MoviesCard = ({ movie, saveStatus }) => {
             type='button'
             aria-label={'save movie'}
             onClick={isSaved ? handleDeleteMovie : handleSaveMovie}
+            disabled={isLoading}
           />
         </div>
         <p className='card__duration'>{formatDuration(duration)}</p>
