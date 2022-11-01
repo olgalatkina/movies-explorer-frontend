@@ -44,6 +44,18 @@
   opacity: 0.8;
 }
 
+.search__submit-btn_disabled {
+  filter: grayscale(100%);
+  opacity: 0.3;
+  cursor: wait;
+}
+
+.search__submit-btn_disabled:hover {
+  filter: grayscale(100%);
+  opacity: 0.3;
+  cursor: wait;
+}
+
 @media screen and (min-width: 768px) {
   .search__content {
     width: calc(100% - 60px);

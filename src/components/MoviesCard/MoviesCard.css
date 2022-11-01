@@ -60,6 +60,10 @@
   background-image: url('../../images/ico-cross.svg');
 }
 
+.card__button_disabled {
+  cursor: default;
+}
+
 .card__button:hover {
   opacity: 0.8;
 }

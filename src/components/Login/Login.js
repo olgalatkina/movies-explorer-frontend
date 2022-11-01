@@ -1,8 +1,21 @@
+import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { VALIDATION } from '../../utils/constants';
 import SignWithForm from '../SignWithForm/SignWithForm';
 
-const Login = () => {
+const Login = ({ handleLogin, isLoading }) => {
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+  } = useFormWithValidation();
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    handleLogin(
+      values.email,
+      values.password,
+    );
   };
 
   return (
@@ -12,7 +25,9 @@ const Login = () => {
       question='Ещё не зарегистрированы?'
       linkText='Регистрация'
       link='signup'
+      isLoading={isLoading}
       onSubmit={handleSubmit}
+      isValid={isValid}
     >
       <label htmlFor='email' className='form__label'>E-mail
         <input
@@ -20,20 +35,30 @@ const Login = () => {
           type='email'
           name='email'
           id='email'
+          minLength='5'
+          maxLength='30'
           required
+          value={values.email || ''}
+          pattern={VALIDATION.email.pattern}
+          onChange={handleChange}
+          disabled={isLoading}
         />
-        <span className='form__error' id='email-error' />
+        <span className='form__error' id='email-error'>{errors.email}</span>
       </label>
 
-      <label htmlFor='email' className='form__label'>Пароль
+      <label htmlFor='password' className='form__label'>Пароль
         <input
           className='form__input'
           type='password'
           name='password'
           id='password'
+          maxLength='30'
           required
+          value={values.password || ''}
+          onChange={handleChange}
+          disabled={isLoading}
         />
-        <span className='form__error' id='password-error' />
+        <span className='form__error' id='password-error'>{errors.password}</span>
       </label>
     </SignWithForm>
   )

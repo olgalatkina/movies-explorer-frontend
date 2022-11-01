@@ -83,6 +83,6 @@
 
 .preloader__round::before {
   z-index: 10;
-  background: var(--preloader);
+  background: var(--grey-light);
   animation: preloader-inside-red 1s ease-in-out infinite;
 }
